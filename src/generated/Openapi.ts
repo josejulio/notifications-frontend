@@ -8,8 +8,7 @@ import {
     ActionValidatable
 } from '@redhat-cloud-services/insights-common-typescript';
 import { Action } from 'react-fetching-library';
-/* eslint-disable @typescript-eslint/camelcase */
-/* eslint-disable @typescript-eslint/no-use-before-define */
+/* eslint-disable */
 
 export const Attributes = zodSchemaAttributes();
 export type Attributes = z.infer<typeof Attributes>;

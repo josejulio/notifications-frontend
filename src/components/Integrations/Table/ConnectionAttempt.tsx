@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { assertNever, PFColors, Spacer, toUtc } from '@redhat-cloud-services/insights-common-typescript';
+import { global_success_color_200, global_danger_color_100, global_spacer_xs } from '@patternfly/react-tokens';
+import { assertNever, toUtc } from '@redhat-cloud-services/insights-common-typescript';
 import format from 'date-fns/format';
 import { ExclamationCircleIcon, CheckCircleIcon } from '@patternfly/react-icons';
 import { style } from 'typestyle';
@@ -15,7 +16,7 @@ export enum ConnectionAttemptType {
 }
 
 const dateClassName = style({
-    marginLeft: Spacer.XS
+    marginLeft: global_spacer_xs.var
 });
 
 const dateFormatString = 'MMM d, HH:mm:ss';
@@ -23,9 +24,9 @@ const dateFormatString = 'MMM d, HH:mm:ss';
 const getIcon = (type: ConnectionAttemptType) => {
     switch (type) {
         case ConnectionAttemptType.SUCCESS:
-            return <CheckCircleIcon color={ PFColors.GlobalSuccessColor200 } />;
+            return <CheckCircleIcon color={ global_success_color_200.value } />;
         case ConnectionAttemptType.FAILED:
-            return <ExclamationCircleIcon color={ PFColors.GlobalDangerColor100 } />;
+            return <ExclamationCircleIcon color={ global_danger_color_100.value } />;
         default:
             assertNever(type);
     }

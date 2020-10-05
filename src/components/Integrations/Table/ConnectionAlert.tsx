@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { Alert, AlertVariant } from '@patternfly/react-core';
+import { global_spacer_sm } from '@patternfly/react-tokens';
 import { ConnectionAttempt, ConnectionAttemptType } from './ConnectionAttempt';
 import { style } from 'typestyle';
-import { OuiaComponentProps, Spacer } from '@redhat-cloud-services/insights-common-typescript';
+import { OuiaComponentProps } from '@redhat-cloud-services/insights-common-typescript';
 import { IntegrationConnectionAttempt } from '../../../types/Integration';
 import { getOuiaProps } from '../../../utils/getOuiaProps';
 
@@ -14,11 +15,11 @@ interface ConnectionAlertProps extends OuiaComponentProps {
 }
 
 const connectionAttemptClassName = style({
-    marginLeft: Spacer.SM
+    marginLeft: global_spacer_sm.var
 });
 
 const marginTopClassName = style({
-    marginTop: Spacer.SM
+    marginTop: global_spacer_sm.var
 });
 
 export const ConnectionAlert: React.FunctionComponent<ConnectionAlertProps> = (props) => {

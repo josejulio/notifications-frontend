@@ -7,12 +7,13 @@ import {
     IntegrationRef
 } from '../../types/Notification';
 import { Button, ButtonVariant } from '@patternfly/react-core';
+import { global_spacer_sm, global_spacer_md } from '@patternfly/react-tokens';
 import {
     Checkbox,
     Form,
     FormText,
     OuiaComponentProps,
-    ouiaIdConcat, Spacer
+    ouiaIdConcat
 } from '@redhat-cloud-services/insights-common-typescript';
 import { FieldArray, FieldArrayRenderProps, FormikProps, useFormikContext } from 'formik';
 import { getOuiaProps } from '../../utils/getOuiaProps';
@@ -44,10 +45,10 @@ const tableClassName = style({
     display: 'block',
     $nest: {
         '& td, & th': {
-            paddingTop: Spacer.SM,
-            paddingBottom: Spacer.SM,
-            paddingLeft: Spacer.MD,
-            paddingRight: Spacer.MD
+            paddingTop: global_spacer_sm.var,
+            paddingBottom: global_spacer_sm.var,
+            paddingLeft: global_spacer_md.var,
+            paddingRight: global_spacer_md.var
         },
         '& th': {
             width: '500px'

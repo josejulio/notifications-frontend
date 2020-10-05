@@ -10,13 +10,21 @@ import {
     RowWrapperProps,
     IActions, IActionsResolver
 } from '@patternfly/react-table';
+import {
+    global_success_color_200,
+    global_danger_color_100,
+    global_warning_color_200,
+    global_spacer_sm,
+    global_spacer_md,
+    global_spacer_lg
+} from '@patternfly/react-tokens';
 import styles from '@patternfly/react-styles/css/components/Table/table';
 import { Spinner, Switch, Text } from '@patternfly/react-core';
 import { Messages } from '../../properties/Messages';
 import { IntegrationConnectionAttempt, Integration } from '../../types/Integration';
 import { ExpandedContent } from './Table/ExpandedContent';
 import { style } from 'typestyle';
-import { assertNever, OuiaComponentProps, Spacer, PFColors } from '@redhat-cloud-services/insights-common-typescript';
+import { assertNever, OuiaComponentProps } from '@redhat-cloud-services/insights-common-typescript';
 import { css } from '@patternfly/react-styles';
 import { important } from 'csx';
 import { getOuiaProps } from '../../utils/getOuiaProps';
@@ -49,12 +57,12 @@ enum LastConnectionAttemptStatus {
 }
 
 const connectionAlertClassName = style({
-    paddingBottom: Spacer.MD
+    paddingBottom: global_spacer_md.var
 });
 
 const expandedContentClassName = style({
-    paddingLeft: Spacer.MD,
-    paddingBottom: Spacer.LG
+    paddingLeft: global_spacer_md.var,
+    paddingBottom: global_spacer_lg.var
 });
 
 const isEnabledLoadingClassName = style({
@@ -62,12 +70,12 @@ const isEnabledLoadingClassName = style({
 });
 
 const smallMarginLeft = style({
-    marginLeft: Spacer.SM
+    marginLeft: global_spacer_sm.var
 });
 
 const degradedClassName = style({
     fontWeight: 600,
-    color: PFColors.GlobalWarningColor200,
+    color: global_warning_color_200.var,
     fontSize: 'var(--pf-global--FontSize--sm)'
 });
 
@@ -112,14 +120,14 @@ const getConnectionAlert = (attempts: Array<IntegrationConnectionAttempt>) => {
 
 const LastConnectionAttemptSuccess: React.FunctionComponent = () => (
     <>
-        <CheckCircleIcon color={ PFColors.GlobalSuccessColor200 } data-testid="success-icon"/>
+        <CheckCircleIcon color={ global_success_color_200.value } data-testid="success-icon"/>
         <span className={ smallMarginLeft }>Success</span>
     </>
 );
 
 const LastConnectionAttemptError: React.FunctionComponent = () => (
     <>
-        <ExclamationCircleIcon color={ PFColors.GlobalDangerColor100 } data-testid="fail-icon"/>
+        <ExclamationCircleIcon color={ global_danger_color_100.value } data-testid="fail-icon"/>
         <span className={ smallMarginLeft }>Fail</span>
     </>
 );

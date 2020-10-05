@@ -39,6 +39,7 @@ const firstNestedCellInExpandedPaddingLeft = style({
 });
 
 const cellPaddingBottomStyle = {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     '--pf-c-table__expandable-row-content--PaddingBottom': '0'
 } as any;
 
@@ -47,6 +48,7 @@ const cellPaddingTop = style({
 } as any);
 
 const cellPaddingTopStyle = {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     '--pf-c-table__expandable-row-content--PaddingTop': '0'
 } as any;
 
