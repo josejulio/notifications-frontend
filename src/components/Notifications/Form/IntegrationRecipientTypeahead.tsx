@@ -11,7 +11,7 @@ import { useTypeaheadReducer } from './useTypeaheadReducer';
 
 export interface IntegrationRecipientTypeaheadProps extends OuiaComponentProps {
     selected: Partial<IntegrationRef> | undefined;
-    getIntegrations: (type: UserIntegrationType, search: string) => Promise<Array<IntegrationRef>>;
+    getIntegrations?: (type: UserIntegrationType, search: string) => Promise<Array<IntegrationRef>>;
     integrationType: UserIntegrationType;
     isDisabled?: boolean;
     onSelected: (recipientOption: RecipientOption) => void;
@@ -28,13 +28,13 @@ export const IntegrationRecipientTypeahead: React.FunctionComponent<IntegrationR
 
     React.useEffect(() => {
         const getIntegrations = props.getIntegrations;
-        getIntegrations(props.integrationType, '').then(integrations => dispatchers.setDefaults(integrations));
+        getIntegrations && getIntegrations(props.integrationType, '').then(integrations => dispatchers.setDefaults(integrations));
     }, [ props.getIntegrations, props.integrationType, dispatchers ]);
 
     React.useEffect(() => {
         const getIntegrations = props.getIntegrations;
         if (state.loadingFilter) {
-            getIntegrations(props.integrationType, state.lastSearch).then(integrations => dispatchers.setFilterValue(
+            getIntegrations && getIntegrations(props.integrationType, state.lastSearch).then(integrations => dispatchers.setFilterValue(
                 state.lastSearch,
                 integrations
             ));

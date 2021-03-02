@@ -17,6 +17,7 @@ export namespace Schemas {
     accountId?: string | undefined | null;
     account_id?: string | undefined | null;
     application?: string | undefined | null;
+    bundle?: string | undefined | null;
     eventType?: string | undefined | null;
     event_type?: string | undefined | null;
     payload?: Map | undefined | null;
@@ -496,6 +497,7 @@ export namespace Schemas {
           accountId: z.string().optional().nullable(),
           account_id: z.string().optional().nullable(),
           application: z.string().optional().nullable(),
+          bundle: z.string().optional().nullable(),
           eventType: z.string().optional().nullable(),
           event_type: z.string().optional().nullable(),
           payload: zodSchemaMap().optional().nullable(),

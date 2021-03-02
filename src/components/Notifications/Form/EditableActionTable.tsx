@@ -1,5 +1,5 @@
 import { Button, ButtonVariant } from '@patternfly/react-core';
-import { TimesIcon } from '@patternfly/react-icons';
+import { MinusCircleIcon } from '@patternfly/react-icons';
 import { OuiaComponentProps } from '@redhat-cloud-services/insights-common-typescript';
 import { useField, useFormikContext } from 'formik';
 import * as React from 'react';
@@ -15,20 +15,21 @@ import { RecipientTypeahead } from './RecipientTypeahead';
 
 export interface EditableActionTableProps {
     actions: Array<Action>;
-    path: string;
-    getRecipients: (search: string) => Promise<Array<string>>;
-    getIntegrations: (type: UserIntegrationType, search: string) => Promise<Array<IntegrationRef>>;
+    path?: string;
+    getRecipients?: (search: string) => Promise<Array<string>>;
+    getIntegrations?: (type: UserIntegrationType, search: string) => Promise<Array<IntegrationRef>>;
     handleRemove?: (index: number) => () => void;
     isDisabled?: boolean;
 }
 
 interface EditableActionElementProps extends OuiaComponentProps {
-    path: string;
+    path?: string;
     action: Action;
     isDisabled?: boolean;
-    getRecipients: (search: string) => Promise<Array<string>>;
-    getIntegrations: (type: UserIntegrationType, search: string) => Promise<Array<IntegrationRef>>;
+    getRecipients?: (search: string) => Promise<Array<string>>;
+    getIntegrations?: (type: UserIntegrationType, search: string) => Promise<Array<IntegrationRef>>;
     onRemove?: () => void;
+    showRemove: boolean;
 }
 
 const EditableActionRow: React.FunctionComponent<EditableActionElementProps> = (props) => {
@@ -111,12 +112,16 @@ const EditableActionRow: React.FunctionComponent<EditableActionElementProps> = (
                 ) }
             </td>
             <td>
-                <Button
-                    onClick={ props.onRemove }
-                    variant={ ButtonVariant.plain }
-                >
-                    <TimesIcon />
-                </Button>
+                {
+                    props.showRemove && (
+                        <Button
+                            onClick={ props.onRemove }
+                            variant={ ButtonVariant.plain }
+                        >
+                            <MinusCircleIcon />
+                        </Button>
+                    )
+                }
             </td>
         </tr>
     );
@@ -139,10 +144,11 @@ export const EditableActionTable: React.FunctionComponent<EditableActionTablePro
                         return (
                             <EditableActionRow
                                 key={ index }
+                                showRemove={ props.actions.length > 1 }
                                 ouiaId={ `${index}` }
                                 action={ a }
                                 isDisabled={ props.isDisabled }
-                                path={ `${props.path}.${index}` }
+                                path={ props.path ? `${props.path}.${index}` : undefined }
                                 getRecipients={ props.getRecipients }
                                 getIntegrations={ props.getIntegrations }
                                 onRemove={ props.handleRemove ? props.handleRemove(index) : undefined }

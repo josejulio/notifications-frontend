@@ -105,8 +105,11 @@ export const NotificationsListPage: React.FunctionComponent = () => {
     }, [ dispatchModalIsOpen, defaultNotificationBehavior.payload ]);
 
     const onEditNotification = React.useCallback((notification: Notification) => {
-        dispatchModalIsOpen(makeEditNotificationAction(notification));
-    }, [ dispatchModalIsOpen ]);
+        const payload = defaultNotificationBehavior.payload;
+        if (payload?.type === 'DefaultNotificationBehavior') {
+            dispatchModalIsOpen(makeEditNotificationAction(notification, payload.value.actions));
+        }
+    }, [ dispatchModalIsOpen, defaultNotificationBehavior.payload ]);
 
     return (
         <>
@@ -146,6 +149,7 @@ export const NotificationsListPage: React.FunctionComponent = () => {
                     { modalIsOpenState.isOpen && (
                         <EditNotificationPage
                             onClose={ closeFormModal }
+                            defaultActions={ [] }
                             { ...modalIsOpenState }
                         />
                     ) }

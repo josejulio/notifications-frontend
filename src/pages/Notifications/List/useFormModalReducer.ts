@@ -1,7 +1,7 @@
 import { assertNever } from 'assert-never';
 import { useReducer } from 'react';
 
-import { DefaultNotificationBehavior, Notification } from '../../../types/Notification';
+import { Action, DefaultNotificationBehavior, Notification } from '../../../types/Notification';
 
 enum UseFormModalReducerActionType {
     EDIT_NOTIFICATION = 'edit-notification',
@@ -12,6 +12,7 @@ enum UseFormModalReducerActionType {
 interface UseFormModalReducerActionEditNotification {
     type: UseFormModalReducerActionType.EDIT_NOTIFICATION;
     template: Notification;
+    defaultActions: Array<Action>;
 }
 
 interface UseFormModalReducerActionEditDefault {
@@ -35,6 +36,7 @@ type UseFormModalReducerState = {
 } | {
     type: 'notification';
     data: Notification;
+    defaultActions: Array<Action>;
 }))
 
 const noneState = {
@@ -53,7 +55,8 @@ const reducer = (state: UseFormModalReducerState, action: UseFormModalReducerAct
             return {
                 isOpen: true,
                 type: 'notification',
-                data: action.template
+                data: action.template,
+                defaultActions: action.defaultActions
             };
         case UseFormModalReducerActionType.NONE:
             return noneState;
@@ -62,9 +65,10 @@ const reducer = (state: UseFormModalReducerState, action: UseFormModalReducerAct
     }
 };
 
-export const makeEditNotificationAction = (template: Notification): UseFormModalReducerActionEditNotification => ({
+export const makeEditNotificationAction = (template: Notification, defaultActions: Array<Action>): UseFormModalReducerActionEditNotification => ({
     type: UseFormModalReducerActionType.EDIT_NOTIFICATION,
-    template
+    template,
+    defaultActions
 });
 
 export const makeEditDefaultAction = (template: DefaultNotificationBehavior): UseFormModalReducerActionEditDefault => ({

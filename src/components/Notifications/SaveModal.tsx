@@ -5,7 +5,7 @@ import * as React from 'react';
 
 import { WithActions } from '../../schemas/Integrations/Notifications';
 import { UserIntegrationType } from '../../types/Integration';
-import { DefaultNotificationBehavior, IntegrationRef, Notification } from '../../types/Notification';
+import { Action, DefaultNotificationBehavior, IntegrationRef, Notification } from '../../types/Notification';
 import { NotificationForm } from './Form';
 
 type DataFetcher = {
@@ -21,12 +21,14 @@ export type NotificationSaveModalProps = Omit<SaveModalProps, UsedProps> & ({
 } | {
     type: 'notification';
     data: Notification;
+    defaultActions: Array<Action>;
     onSave: (notification: Notification) => boolean | Promise<boolean>;
 }) & DataFetcher;
 
 interface InternalProps extends DataFetcher {
     onClose: (saved: boolean) => void;
     type: NotificationSaveModalProps['type'];
+    defaultActions: Array<Action>;
 }
 
 const InternalNotificationSaveModal: React.FunctionComponent<InternalProps> = (props) => {
@@ -45,6 +47,7 @@ const InternalNotificationSaveModal: React.FunctionComponent<InternalProps> = (p
                 type={ props.type }
                 getRecipients={ props.getRecipients }
                 getIntegrations={ props.getIntegrations }
+                defaultActions={ props.defaultActions }
             /> }
             isSaving={ isSubmitting }
             onSave={ onSaveClicked }
@@ -75,6 +78,8 @@ export const NotificationSaveModal: React.FunctionComponent<NotificationSaveModa
         }
     }, [ props.onSave, props.onClose, props.type ]);
 
+    const actions: Array<Action> = props.type === 'notification' ? props.defaultActions : [];
+
     return (
         <Formik<Notification | DefaultNotificationBehavior>
             initialValues={ props.data }
@@ -87,6 +92,7 @@ export const NotificationSaveModal: React.FunctionComponent<NotificationSaveModa
                 onClose={ props.onClose }
                 getRecipients={ props.getRecipients }
                 getIntegrations={ props.getIntegrations }
+                defaultActions={ actions }
             />
         </Formik>
     );

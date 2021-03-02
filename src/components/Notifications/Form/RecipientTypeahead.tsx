@@ -10,7 +10,7 @@ import { useTypeaheadReducer } from './useTypeaheadReducer';
 export interface RecipientTypeaheadProps extends OuiaComponentProps {
     selected: Array<string> | undefined;
     onSelected: (value: RecipientOption) => void;
-    getRecipients: (search: string) => Promise<Array<string>>;
+    getRecipients?: (search: string) => Promise<Array<string>>;
     isDisabled?: boolean;
     onClear: () => void;
 }
@@ -21,13 +21,13 @@ export const RecipientTypeahead: React.FunctionComponent<RecipientTypeaheadProps
 
     React.useEffect(() => {
         const getRecipients = props.getRecipients;
-        getRecipients('').then(recipients => dispatchers.setDefaults(recipients));
+        getRecipients && getRecipients('').then(recipients => dispatchers.setDefaults(recipients));
     }, [ props.getRecipients, dispatchers ]);
 
     React.useEffect(() => {
         const getRecipients = props.getRecipients;
         if (state.loadingFilter) {
-            getRecipients(state.lastSearch).then(recipients => dispatchers.setFilterValue(
+            getRecipients && getRecipients(state.lastSearch).then(recipients => dispatchers.setFilterValue(
                 state.lastSearch,
                 recipients
             ));

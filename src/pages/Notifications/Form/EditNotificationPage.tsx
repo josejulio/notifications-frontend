@@ -51,6 +51,7 @@ interface EditNotificationPagePropsNotification {
 interface EditNotificationPagePropsDefault {
     type: 'default';
     data: DefaultNotificationBehavior;
+    defaultActions: Array<Action>;
 }
 
 export type EditNotificationPageProps = {
@@ -266,6 +267,7 @@ export const EditNotificationPage: React.FunctionComponent<EditNotificationPageP
         <NotificationSaveModal
             onSave={ onSave }
             isSaving={ false }
+            defaultActions={ [] }
             { ...props }
             getRecipients={ getRecipients }
             getIntegrations={ getIntegrations }
