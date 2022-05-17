@@ -24,6 +24,7 @@ import {
 } from './Filter';
 import { GroupBy } from './Table/GroupBy';
 import { GroupByEnum } from './Types';
+import { FilterChipsProps } from '@redhat-cloud-services/frontend-components/FilterChips';
 
 interface NotificationsToolbarProps extends OuiaComponentProps {
     filters: NotificationFilters;
@@ -82,7 +83,10 @@ export const NotificationsToolbar: React.FunctionComponent<NotificationsToolbarP
     const exportConfigInternal = useTableExportConfig(props.onExport);
 
     const filterConfig = primaryToolbarFilterConfig.filterConfig;
-    const activeFiltersConfig = primaryToolbarFilterConfig.activeFiltersConfig;
+    const activeFiltersConfig = React.useMemo<FilterChipsProps>(() => ({
+        ...primaryToolbarFilterConfig.activeFiltersConfig.filters,
+        filters: primaryToolbarFilterConfig.activeFiltersConfig.filters.filter(f => f !== undefined) as FilterChipsProps['filters']
+    }), [ primaryToolbarFilterConfig.activeFiltersConfig ]);
 
     const exportConfig = useInsightsEnvironmentFlag(
         getInsights(),
@@ -130,7 +134,7 @@ export const NotificationsToolbar: React.FunctionComponent<NotificationsToolbarP
                 dedicatedAction={ (props.groupBy && props.onGroupBySelected) ?
                     <GroupBy selected={ props.groupBy } groupBy={ props.onGroupBySelected } /> :
                     undefined }
-                exportConfig={ exportConfig }
+                exportConfig={ exportConfig as any }
                 pagination={ topPaginationProps }
             />
             { props.children }
