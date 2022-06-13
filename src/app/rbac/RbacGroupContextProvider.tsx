@@ -1,28 +1,32 @@
 import { useSyncInterval } from '@redhat-cloud-services/insights-common-typescript';
 import * as React from 'react';
 import { useState } from 'react';
-import { useClient } from 'react-fetching-library';
 
-import { getRbacGroupsAction } from '../../services/Rbac/GetGroups';
+import { client } from '../../generated/OpenapiRbac';
 import { RbacGroup, RbacGroupContext } from './RbacGroupContext';
 
 const SYNC_INTERVAL = 2 * 60 * 1000;
 const LIMIT = 100;
 
-const getPage = async (query: ReturnType<typeof useClient>['query'], offset: number): Promise<[ ReadonlyArray<RbacGroup> | undefined, boolean ]> => {
-    const groups = await query(getRbacGroupsAction({
+const getPage = async (
+    requestor: ReturnType<typeof client.ListGroups.useRequest>,
+    offset: number
+): Promise<[ ReadonlyArray<RbacGroup> | undefined, boolean ]> => {
+    const groups = await requestor({
         limit: LIMIT,
-        offset
-    }));
+        offset,
+        platformDefault: false,
+        adminDefault: false
+    });
 
-    if (groups.payload?.type === 'GroupPagination') {
-        const page = groups.payload.value;
+    if (groups.type === 'GroupPagination') {
+        const page = groups.value;
 
         const hasMore =  page.data.length > 0 && (
             page.meta?.count ? (page.meta.count > offset + LIMIT) : true
         );
 
-        return [ groups.payload.value.data.map(value => ({
+        return [ groups.value.data.map(value => ({
             id: value.uuid,
             name: value.name
         })), hasMore ];
@@ -32,7 +36,8 @@ const getPage = async (query: ReturnType<typeof useClient>['query'], offset: num
 };
 
 export const RbacGroupContextProvider: React.FunctionComponent = props => {
-    const { query } = useClient();
+    const requestor = client.ListGroups.useRequest();
+
     const [ isLoading, setLoading ] = useState(true);
     const [ rbacGroups, setRbacGroups ] = useState<ReadonlyArray<RbacGroup>>([]);
 
@@ -41,7 +46,7 @@ export const RbacGroupContextProvider: React.FunctionComponent = props => {
         let offset = 0;
 
         while (true) {
-            const [ groups, hasMorePages ] = await getPage(query, offset);
+            const [ groups, hasMorePages ] = await getPage(requestor, offset);
             if (groups === undefined) {
                 return;
             }
@@ -56,7 +61,7 @@ export const RbacGroupContextProvider: React.FunctionComponent = props => {
 
         setRbacGroups(allGroups);
         setLoading(false);
-    }, [ query ]);
+    }, [ requestor ]);
 
     useSyncInterval(SYNC_INTERVAL, sync, true);
 

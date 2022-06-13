@@ -2,55 +2,58 @@
 /**
  * Generated code, DO NOT modify directly.
  */
-import { ValidatedResponse } from 'openapi2typescript';
-import { ValidateRule } from 'openapi2typescript';
+import { z } from "zod";
+import { ValidatedResponse } from "openapi2typescript";
+import { Action } from "react-fetching-library";
+import { ValidateRule } from "openapi2typescript";
 import {
-    actionBuilder,
-    ActionValidatableConfig
-} from 'openapi2typescript/react-fetching-library';
-import { Action } from 'react-fetching-library';
-import * as z from 'zod';
+  actionBuilder,
+  useWrappedMutation,
+  useWrappedParameterizedQuery,
+  useWrappedQuery,
+  useWrappedRequest,
+} from "openapi2typescript-plugin-react-fetching-library";
 
-export namespace Schemas {
+export module Schemas {
   export const AddAccessRequest = zodSchemaAddAccessRequest();
   export type AddAccessRequest = {
-    application_id?: UUID | undefined | null;
+    applicationId?: UUID | undefined | null;
     role?: string | undefined | null;
   };
 
   export const AddApplicationRequest = zodSchemaAddApplicationRequest();
   export type AddApplicationRequest = {
-    bundle_id: UUID;
-    display_name: string;
+    bundleId: UUID;
+    displayName: string;
     name: string;
-    owner_role?: string | undefined | null;
+    ownerRole?: string | undefined | null;
   };
 
   export const AggregationEmailTemplate = zodSchemaAggregationEmailTemplate();
   export type AggregationEmailTemplate = {
     application?: Application1 | undefined | null;
-    application_id?: UUID | undefined | null;
-    body_template?: Template | undefined | null;
-    body_template_id: UUID;
+    applicationId?: UUID | undefined | null;
+    bodyTemplate?: Template | undefined | null;
+    bodyTemplateId: UUID;
     created?: string | undefined | null;
     id?: UUID | undefined | null;
-    subject_template?: Template | undefined | null;
-    subject_template_id: UUID;
-    subscription_type: EmailSubscriptionType;
+    subjectTemplate?: Template | undefined | null;
+    subjectTemplateId: UUID;
+    subscriptionType: EmailSubscriptionType;
     updated?: string | undefined | null;
   };
 
   export const Application = zodSchemaApplication();
   export type Application = {
-    display_name: string;
+    displayName: string;
     id: UUID;
   };
 
   export const Application1 = zodSchemaApplication1();
   export type Application1 = {
-    bundle_id: UUID;
+    bundleId: UUID;
     created?: string | undefined | null;
-    display_name: string;
+    displayName: string;
     id?: UUID | undefined | null;
     name: string;
     updated?: string | undefined | null;
@@ -66,10 +69,10 @@ export namespace Schemas {
   export type BehaviorGroup = {
     actions?: Array<BehaviorGroupAction> | undefined | null;
     bundle?: Bundle | undefined | null;
-    bundle_id: UUID;
+    bundleId: UUID;
     created?: string | undefined | null;
-    default_behavior?: boolean | undefined | null;
-    display_name: string;
+    defaultBehavior?: boolean | undefined | null;
+    displayName: string;
     id?: UUID | undefined | null;
     updated?: string | undefined | null;
   };
@@ -90,7 +93,7 @@ export namespace Schemas {
   export const Bundle = zodSchemaBundle();
   export type Bundle = {
     created?: string | undefined | null;
-    display_name: string;
+    displayName: string;
     id?: UUID | undefined | null;
     name: string;
     updated?: string | undefined | null;
@@ -98,36 +101,36 @@ export namespace Schemas {
 
   export const CamelProperties = zodSchemaCamelProperties();
   export type CamelProperties = {
-    basic_authentication?: BasicAuthentication | undefined | null;
-    disable_ssl_verification: boolean;
+    basicAuthentication?: BasicAuthentication | undefined | null;
+    disableSslVerification: boolean;
     extras?:
       | {
           [x: string]: string;
         }
       | undefined
       | null;
-    secret_token?: string | undefined | null;
-    sub_type?: string | undefined | null;
+    secretToken?: string | undefined | null;
+    subType?: string | undefined | null;
     url: string;
   };
 
   export const CurrentStatus = zodSchemaCurrentStatus();
   export type CurrentStatus = {
-    end_time?: string | undefined | null;
-    start_time?: string | undefined | null;
+    endTime?: string | undefined | null;
+    startTime?: string | undefined | null;
     status: Status;
   };
 
   export const EmailSubscriptionProperties =
     zodSchemaEmailSubscriptionProperties();
   export type EmailSubscriptionProperties = {
-    group_id?: UUID | undefined | null;
-    ignore_preferences: boolean;
-    only_admins: boolean;
+    groupId?: UUID | undefined | null;
+    ignorePreferences: boolean;
+    onlyAdmins: boolean;
   };
 
   export const EmailSubscriptionType = zodSchemaEmailSubscriptionType();
-  export type EmailSubscriptionType = 'INSTANT' | 'DAILY';
+  export type EmailSubscriptionType = "INSTANT" | "DAILY";
 
   export const Endpoint = zodSchemaEndpoint();
   export type Endpoint = {
@@ -140,7 +143,7 @@ export namespace Schemas {
       | (WebhookProperties | EmailSubscriptionProperties | CamelProperties)
       | undefined
       | null;
-    sub_type?: string | undefined | null;
+    subType?: string | undefined | null;
     type: EndpointType;
     updated?: string | undefined | null;
   };
@@ -159,13 +162,13 @@ export namespace Schemas {
 
   export const EndpointType = zodSchemaEndpointType();
   export type EndpointType =
-    | 'webhook'
-    | 'email_subscription'
-    | 'default'
-    | 'camel';
+    | "webhook"
+    | "email_subscription"
+    | "default"
+    | "camel";
 
   export const Environment = zodSchemaEnvironment();
-  export type Environment = 'PROD' | 'STAGE' | 'EPHEMERAL' | 'LOCAL_SERVER';
+  export type Environment = "PROD" | "STAGE" | "EPHEMERAL" | "LOCAL_SERVER";
 
   export const EventLogEntry = zodSchemaEventLogEntry();
   export type EventLogEntry = {
@@ -173,7 +176,7 @@ export namespace Schemas {
     application: string;
     bundle: string;
     created: string;
-    event_type: string;
+    eventType: string;
     id: UUID;
     payload?: string | undefined | null;
   };
@@ -186,19 +189,19 @@ export namespace Schemas {
         }
       | undefined
       | null;
-    endpoint_id?: UUID | undefined | null;
-    endpoint_sub_type?: string | undefined | null;
-    endpoint_type: EndpointType;
+    endpointId?: UUID | undefined | null;
+    endpointSubType?: string | undefined | null;
+    endpointType: EndpointType;
     id: UUID;
-    invocation_result: boolean;
+    invocationResult: boolean;
   };
 
   export const EventType = zodSchemaEventType();
   export type EventType = {
     application?: Application1 | undefined | null;
-    application_id: UUID;
+    applicationId: UUID;
     description?: string | undefined | null;
-    display_name: string;
+    displayName: string;
     id?: UUID | undefined | null;
     name: string;
   };
@@ -212,32 +215,32 @@ export namespace Schemas {
   };
 
   export const HttpType = zodSchemaHttpType();
-  export type HttpType = 'GET' | 'POST' | 'PUT';
+  export type HttpType = "GET" | "POST" | "PUT";
 
   export const InstantEmailTemplate = zodSchemaInstantEmailTemplate();
   export type InstantEmailTemplate = {
-    body_template?: Template | undefined | null;
-    body_template_id: UUID;
+    bodyTemplate?: Template | undefined | null;
+    bodyTemplateId: UUID;
     created?: string | undefined | null;
-    event_type?: EventType | undefined | null;
-    event_type_id?: UUID | undefined | null;
+    eventType?: EventType | undefined | null;
+    eventTypeId?: UUID | undefined | null;
     id?: UUID | undefined | null;
-    subject_template?: Template | undefined | null;
-    subject_template_id: UUID;
+    subjectTemplate?: Template | undefined | null;
+    subjectTemplateId: UUID;
     updated?: string | undefined | null;
   };
 
   export const InternalApplicationUserPermission =
     zodSchemaInternalApplicationUserPermission();
   export type InternalApplicationUserPermission = {
-    application_display_name: string;
-    application_id: UUID;
+    applicationDisplayName: string;
+    applicationId: UUID;
     role: string;
   };
 
   export const InternalRoleAccess = zodSchemaInternalRoleAccess();
   export type InternalRoleAccess = {
-    application_id: UUID;
+    applicationId: UUID;
     id?: UUID | undefined | null;
     role: string;
   };
@@ -245,7 +248,7 @@ export namespace Schemas {
   export const InternalUserPermissions = zodSchemaInternalUserPermissions();
   export type InternalUserPermissions = {
     applications: Array<Application>;
-    is_admin: boolean;
+    isAdmin: boolean;
     roles: Array<string>;
   };
 
@@ -299,23 +302,23 @@ export namespace Schemas {
   export const RenderEmailTemplateRequest =
     zodSchemaRenderEmailTemplateRequest();
   export type RenderEmailTemplateRequest = {
-    body_template: string;
+    bodyTemplate: string;
     payload: string;
-    subject_template: string;
+    subjectTemplate: string;
   };
 
   export const RequestDefaultBehaviorGroupPropertyList =
     zodSchemaRequestDefaultBehaviorGroupPropertyList();
   export type RequestDefaultBehaviorGroupPropertyList = {
-    ignore_preferences: boolean;
-    only_admins: boolean;
+    ignorePreferences: boolean;
+    onlyAdmins: boolean;
   };
 
   export const RequestEmailSubscriptionProperties =
     zodSchemaRequestEmailSubscriptionProperties();
   export type RequestEmailSubscriptionProperties = {
-    group_id?: UUID | undefined | null;
-    only_admins: boolean;
+    groupId?: UUID | undefined | null;
+    onlyAdmins: boolean;
   };
 
   export const ServerInfo = zodSchemaServerInfo();
@@ -324,7 +327,7 @@ export namespace Schemas {
   };
 
   export const Status = zodSchemaStatus();
-  export type Status = 'UP' | 'MAINTENANCE';
+  export type Status = "UP" | "MAINTENANCE";
 
   export const Template = zodSchemaTemplate();
   export type Template = {
@@ -341,10 +344,10 @@ export namespace Schemas {
 
   export const WebhookProperties = zodSchemaWebhookProperties();
   export type WebhookProperties = {
-    basic_authentication?: BasicAuthentication | undefined | null;
-    disable_ssl_verification: boolean;
+    basicAuthentication?: BasicAuthentication | undefined | null;
+    disableSslVerification: boolean;
     method: HttpType;
-    secret_token?: string | undefined | null;
+    secretToken?: string | undefined | null;
     url: string;
   };
 
@@ -352,643 +355,728 @@ export namespace Schemas {
   export type __Empty = string | undefined;
 
   function zodSchemaAddAccessRequest() {
-      return z
+    return z
       .object({
-          application_id: zodSchemaUUID().optional().nullable(),
-          role: z.string().optional().nullable()
+        application_id: zodSchemaUUID().optional().nullable(),
+        role: z.string().optional().nullable(),
       })
-      .nonstrict();
+      .nonstrict()
+      .transform((o) => ({
+        applicationId: o.application_id,
+        role: o.role,
+      }));
   }
 
   function zodSchemaAddApplicationRequest() {
-      return z
+    return z
       .object({
-          bundle_id: zodSchemaUUID(),
-          display_name: z.string(),
-          name: z.string(),
-          owner_role: z.string().optional().nullable()
+        bundle_id: zodSchemaUUID(),
+        display_name: z.string(),
+        name: z.string(),
+        owner_role: z.string().optional().nullable(),
       })
-      .nonstrict();
+      .nonstrict()
+      .transform((o) => ({
+        bundleId: o.bundle_id,
+        displayName: o.display_name,
+        name: o.name,
+        ownerRole: o.owner_role,
+      }));
   }
 
   function zodSchemaAggregationEmailTemplate() {
-      return z
+    return z
       .object({
-          application: zodSchemaApplication1().optional().nullable(),
-          application_id: zodSchemaUUID().optional().nullable(),
-          body_template: zodSchemaTemplate().optional().nullable(),
-          body_template_id: zodSchemaUUID(),
-          created: z.string().optional().nullable(),
-          id: zodSchemaUUID().optional().nullable(),
-          subject_template: zodSchemaTemplate().optional().nullable(),
-          subject_template_id: zodSchemaUUID(),
-          subscription_type: zodSchemaEmailSubscriptionType(),
-          updated: z.string().optional().nullable()
+        application: zodSchemaApplication1().optional().nullable(),
+        application_id: zodSchemaUUID().optional().nullable(),
+        body_template: zodSchemaTemplate().optional().nullable(),
+        body_template_id: zodSchemaUUID(),
+        created: z.string().optional().nullable(),
+        id: zodSchemaUUID().optional().nullable(),
+        subject_template: zodSchemaTemplate().optional().nullable(),
+        subject_template_id: zodSchemaUUID(),
+        subscription_type: zodSchemaEmailSubscriptionType(),
+        updated: z.string().optional().nullable(),
       })
-      .nonstrict();
+      .nonstrict()
+      .transform((o) => ({
+        application: o.application,
+        applicationId: o.application_id,
+        bodyTemplate: o.body_template,
+        bodyTemplateId: o.body_template_id,
+        created: o.created,
+        id: o.id,
+        subjectTemplate: o.subject_template,
+        subjectTemplateId: o.subject_template_id,
+        subscriptionType: o.subscription_type,
+        updated: o.updated,
+      }));
   }
 
   function zodSchemaApplication() {
-      return z
+    return z
       .object({
-          display_name: z.string(),
-          id: zodSchemaUUID()
+        display_name: z.string(),
+        id: zodSchemaUUID(),
       })
-      .nonstrict();
+      .nonstrict()
+      .transform((o) => ({
+        displayName: o.display_name,
+        id: o.id,
+      }));
   }
 
   function zodSchemaApplication1() {
-      return z
+    return z
       .object({
-          bundle_id: zodSchemaUUID(),
-          created: z.string().optional().nullable(),
-          display_name: z.string(),
-          id: zodSchemaUUID().optional().nullable(),
-          name: z.string(),
-          updated: z.string().optional().nullable()
+        bundle_id: zodSchemaUUID(),
+        created: z.string().optional().nullable(),
+        display_name: z.string(),
+        id: zodSchemaUUID().optional().nullable(),
+        name: z.string(),
+        updated: z.string().optional().nullable(),
       })
-      .nonstrict();
+      .nonstrict()
+      .transform((o) => ({
+        bundleId: o.bundle_id,
+        created: o.created,
+        displayName: o.display_name,
+        id: o.id,
+        name: o.name,
+        updated: o.updated,
+      }));
   }
 
   function zodSchemaBasicAuthentication() {
-      return z
+    return z
       .object({
-          password: z.string().optional().nullable(),
-          username: z.string().optional().nullable()
+        password: z.string().optional().nullable(),
+        username: z.string().optional().nullable(),
       })
-      .nonstrict();
+      .nonstrict()
+      .transform((o) => ({
+        password: o.password,
+        username: o.username,
+      }));
   }
 
   function zodSchemaBehaviorGroup() {
-      return z
+    return z
       .object({
-          actions: z.array(zodSchemaBehaviorGroupAction()).optional().nullable(),
-          bundle: zodSchemaBundle().optional().nullable(),
-          bundle_id: zodSchemaUUID(),
-          created: z.string().optional().nullable(),
-          default_behavior: z.boolean().optional().nullable(),
-          display_name: z.string(),
-          id: zodSchemaUUID().optional().nullable(),
-          updated: z.string().optional().nullable()
+        actions: z.array(zodSchemaBehaviorGroupAction()).optional().nullable(),
+        bundle: zodSchemaBundle().optional().nullable(),
+        bundle_id: zodSchemaUUID(),
+        created: z.string().optional().nullable(),
+        default_behavior: z.boolean().optional().nullable(),
+        display_name: z.string(),
+        id: zodSchemaUUID().optional().nullable(),
+        updated: z.string().optional().nullable(),
       })
-      .nonstrict();
+      .nonstrict()
+      .transform((o) => ({
+        actions: o.actions,
+        bundle: o.bundle,
+        bundleId: o.bundle_id,
+        created: o.created,
+        defaultBehavior: o.default_behavior,
+        displayName: o.display_name,
+        id: o.id,
+        updated: o.updated,
+      }));
   }
 
   function zodSchemaBehaviorGroupAction() {
-      return z
+    return z
       .object({
-          created: z.string().optional().nullable(),
-          endpoint: zodSchemaEndpoint().optional().nullable(),
-          id: zodSchemaBehaviorGroupActionId().optional().nullable()
+        created: z.string().optional().nullable(),
+        endpoint: zodSchemaEndpoint().optional().nullable(),
+        id: zodSchemaBehaviorGroupActionId().optional().nullable(),
       })
-      .nonstrict();
+      .nonstrict()
+      .transform((o) => ({
+        created: o.created,
+        endpoint: o.endpoint,
+        id: o.id,
+      }));
   }
 
   function zodSchemaBehaviorGroupActionId() {
-      return z
+    return z
       .object({
-          behaviorGroupId: zodSchemaUUID(),
-          endpointId: zodSchemaUUID()
+        behaviorGroupId: zodSchemaUUID(),
+        endpointId: zodSchemaUUID(),
       })
-      .nonstrict();
+      .nonstrict()
+      .transform((o) => ({
+        behaviorGroupId: o.behaviorGroupId,
+        endpointId: o.endpointId,
+      }));
   }
 
   function zodSchemaBundle() {
-      return z
+    return z
       .object({
-          created: z.string().optional().nullable(),
-          display_name: z.string(),
-          id: zodSchemaUUID().optional().nullable(),
-          name: z.string(),
-          updated: z.string().optional().nullable()
+        created: z.string().optional().nullable(),
+        display_name: z.string(),
+        id: zodSchemaUUID().optional().nullable(),
+        name: z.string(),
+        updated: z.string().optional().nullable(),
       })
-      .nonstrict();
+      .nonstrict()
+      .transform((o) => ({
+        created: o.created,
+        displayName: o.display_name,
+        id: o.id,
+        name: o.name,
+        updated: o.updated,
+      }));
   }
 
   function zodSchemaCamelProperties() {
-      return z
+    return z
       .object({
-          basic_authentication: zodSchemaBasicAuthentication()
+        basic_authentication: zodSchemaBasicAuthentication()
           .optional()
           .nullable(),
-          disable_ssl_verification: z.boolean(),
-          extras: z.record(z.string()).optional().nullable(),
-          secret_token: z.string().optional().nullable(),
-          sub_type: z.string().optional().nullable(),
-          url: z.string()
+        disable_ssl_verification: z.boolean(),
+        extras: z.record(z.string()).optional().nullable(),
+        secret_token: z.string().optional().nullable(),
+        sub_type: z.string().optional().nullable(),
+        url: z.string(),
       })
-      .nonstrict();
+      .nonstrict()
+      .transform((o) => ({
+        basicAuthentication: o.basic_authentication,
+        disableSslVerification: o.disable_ssl_verification,
+        extras: o.extras,
+        secretToken: o.secret_token,
+        subType: o.sub_type,
+        url: o.url,
+      }));
   }
 
   function zodSchemaCurrentStatus() {
-      return z
+    return z
       .object({
-          end_time: z.string().optional().nullable(),
-          start_time: z.string().optional().nullable(),
-          status: zodSchemaStatus()
+        end_time: z.string().optional().nullable(),
+        start_time: z.string().optional().nullable(),
+        status: zodSchemaStatus(),
       })
-      .nonstrict();
+      .nonstrict()
+      .transform((o) => ({
+        endTime: o.end_time,
+        startTime: o.start_time,
+        status: o.status,
+      }));
   }
 
   function zodSchemaEmailSubscriptionProperties() {
-      return z
+    return z
       .object({
-          group_id: zodSchemaUUID().optional().nullable(),
-          ignore_preferences: z.boolean(),
-          only_admins: z.boolean()
+        group_id: zodSchemaUUID().optional().nullable(),
+        ignore_preferences: z.boolean(),
+        only_admins: z.boolean(),
       })
-      .nonstrict();
+      .nonstrict()
+      .transform((o) => ({
+        groupId: o.group_id,
+        ignorePreferences: o.ignore_preferences,
+        onlyAdmins: o.only_admins,
+      }));
   }
 
   function zodSchemaEmailSubscriptionType() {
-      return z.enum([ 'INSTANT', 'DAILY' ]);
+    return z.enum(["INSTANT", "DAILY"]);
   }
 
   function zodSchemaEndpoint() {
-      return z
+    return z
       .object({
-          created: z.string().optional().nullable(),
-          description: z.string(),
-          enabled: z.boolean().optional().nullable(),
-          id: zodSchemaUUID().optional().nullable(),
-          name: z.string(),
-          properties: z
+        created: z.string().optional().nullable(),
+        description: z.string(),
+        enabled: z.boolean().optional().nullable(),
+        id: zodSchemaUUID().optional().nullable(),
+        name: z.string(),
+        properties: z
           .union([
-              zodSchemaWebhookProperties(),
-              zodSchemaEmailSubscriptionProperties(),
-              zodSchemaCamelProperties()
+            zodSchemaWebhookProperties(),
+            zodSchemaEmailSubscriptionProperties(),
+            zodSchemaCamelProperties(),
           ])
           .optional()
           .nullable(),
-          sub_type: z.string().optional().nullable(),
-          type: zodSchemaEndpointType(),
-          updated: z.string().optional().nullable()
+        sub_type: z.string().optional().nullable(),
+        type: zodSchemaEndpointType(),
+        updated: z.string().optional().nullable(),
       })
-      .nonstrict();
+      .nonstrict()
+      .transform((o) => ({
+        created: o.created,
+        description: o.description,
+        enabled: o.enabled,
+        id: o.id,
+        name: o.name,
+        properties: o.properties,
+        subType: o.sub_type,
+        type: o.type,
+        updated: o.updated,
+      }));
   }
 
   function zodSchemaEndpointPage() {
-      return z
+    return z
       .object({
-          data: z.array(zodSchemaEndpoint()),
-          links: z.record(z.string()),
-          meta: zodSchemaMeta()
+        data: z.array(zodSchemaEndpoint()),
+        links: z.record(z.string()),
+        meta: zodSchemaMeta(),
       })
-      .nonstrict();
+      .nonstrict()
+      .transform((o) => ({
+        data: o.data,
+        links: o.links,
+        meta: o.meta,
+      }));
   }
 
   function zodSchemaEndpointProperties() {
-      return z.unknown();
+    return z.unknown();
   }
 
   function zodSchemaEndpointType() {
-      return z.enum([ 'webhook', 'email_subscription', 'default', 'camel' ]);
+    return z.enum(["webhook", "email_subscription", "default", "camel"]);
   }
 
   function zodSchemaEnvironment() {
-      return z.enum([ 'PROD', 'STAGE', 'EPHEMERAL', 'LOCAL_SERVER' ]);
+    return z.enum(["PROD", "STAGE", "EPHEMERAL", "LOCAL_SERVER"]);
   }
 
   function zodSchemaEventLogEntry() {
-      return z
+    return z
       .object({
-          actions: z.array(zodSchemaEventLogEntryAction()),
-          application: z.string(),
-          bundle: z.string(),
-          created: z.string(),
-          event_type: z.string(),
-          id: zodSchemaUUID(),
-          payload: z.string().optional().nullable()
+        actions: z.array(zodSchemaEventLogEntryAction()),
+        application: z.string(),
+        bundle: z.string(),
+        created: z.string(),
+        event_type: z.string(),
+        id: zodSchemaUUID(),
+        payload: z.string().optional().nullable(),
       })
-      .nonstrict();
+      .nonstrict()
+      .transform((o) => ({
+        actions: o.actions,
+        application: o.application,
+        bundle: o.bundle,
+        created: o.created,
+        eventType: o.event_type,
+        id: o.id,
+        payload: o.payload,
+      }));
   }
 
   function zodSchemaEventLogEntryAction() {
-      return z
+    return z
       .object({
-          details: z.record(z.unknown()).optional().nullable(),
-          endpoint_id: zodSchemaUUID().optional().nullable(),
-          endpoint_sub_type: z.string().optional().nullable(),
-          endpoint_type: zodSchemaEndpointType(),
-          id: zodSchemaUUID(),
-          invocation_result: z.boolean()
+        details: z.record(z.unknown()).optional().nullable(),
+        endpoint_id: zodSchemaUUID().optional().nullable(),
+        endpoint_sub_type: z.string().optional().nullable(),
+        endpoint_type: zodSchemaEndpointType(),
+        id: zodSchemaUUID(),
+        invocation_result: z.boolean(),
       })
-      .nonstrict();
+      .nonstrict()
+      .transform((o) => ({
+        details: o.details,
+        endpointId: o.endpoint_id,
+        endpointSubType: o.endpoint_sub_type,
+        endpointType: o.endpoint_type,
+        id: o.id,
+        invocationResult: o.invocation_result,
+      }));
   }
 
   function zodSchemaEventType() {
-      return z
+    return z
       .object({
-          application: zodSchemaApplication1().optional().nullable(),
-          application_id: zodSchemaUUID(),
-          description: z.string().optional().nullable(),
-          display_name: z.string(),
-          id: zodSchemaUUID().optional().nullable(),
-          name: z.string()
+        application: zodSchemaApplication1().optional().nullable(),
+        application_id: zodSchemaUUID(),
+        description: z.string().optional().nullable(),
+        display_name: z.string(),
+        id: zodSchemaUUID().optional().nullable(),
+        name: z.string(),
       })
-      .nonstrict();
+      .nonstrict()
+      .transform((o) => ({
+        application: o.application,
+        applicationId: o.application_id,
+        description: o.description,
+        displayName: o.display_name,
+        id: o.id,
+        name: o.name,
+      }));
   }
 
   function zodSchemaFacet() {
-      return z
+    return z
       .object({
-          children: z
+        children: z
           .array(z.lazy(() => zodSchemaFacet()))
           .optional()
           .nullable(),
-          displayName: z.string(),
-          id: z.string(),
-          name: z.string()
+        displayName: z.string(),
+        id: z.string(),
+        name: z.string(),
       })
-      .nonstrict();
+      .nonstrict()
+      .transform((o) => ({
+        children: o.children,
+        displayName: o.displayName,
+        id: o.id,
+        name: o.name,
+      }));
   }
 
   function zodSchemaHttpType() {
-      return z.enum([ 'GET', 'POST', 'PUT' ]);
+    return z.enum(["GET", "POST", "PUT"]);
   }
 
   function zodSchemaInstantEmailTemplate() {
-      return z
+    return z
       .object({
-          body_template: zodSchemaTemplate().optional().nullable(),
-          body_template_id: zodSchemaUUID(),
-          created: z.string().optional().nullable(),
-          event_type: zodSchemaEventType().optional().nullable(),
-          event_type_id: zodSchemaUUID().optional().nullable(),
-          id: zodSchemaUUID().optional().nullable(),
-          subject_template: zodSchemaTemplate().optional().nullable(),
-          subject_template_id: zodSchemaUUID(),
-          updated: z.string().optional().nullable()
+        body_template: zodSchemaTemplate().optional().nullable(),
+        body_template_id: zodSchemaUUID(),
+        created: z.string().optional().nullable(),
+        event_type: zodSchemaEventType().optional().nullable(),
+        event_type_id: zodSchemaUUID().optional().nullable(),
+        id: zodSchemaUUID().optional().nullable(),
+        subject_template: zodSchemaTemplate().optional().nullable(),
+        subject_template_id: zodSchemaUUID(),
+        updated: z.string().optional().nullable(),
       })
-      .nonstrict();
+      .nonstrict()
+      .transform((o) => ({
+        bodyTemplate: o.body_template,
+        bodyTemplateId: o.body_template_id,
+        created: o.created,
+        eventType: o.event_type,
+        eventTypeId: o.event_type_id,
+        id: o.id,
+        subjectTemplate: o.subject_template,
+        subjectTemplateId: o.subject_template_id,
+        updated: o.updated,
+      }));
   }
 
   function zodSchemaInternalApplicationUserPermission() {
-      return z
+    return z
       .object({
-          application_display_name: z.string(),
-          application_id: zodSchemaUUID(),
-          role: z.string()
+        application_display_name: z.string(),
+        application_id: zodSchemaUUID(),
+        role: z.string(),
       })
-      .nonstrict();
+      .nonstrict()
+      .transform((o) => ({
+        applicationDisplayName: o.application_display_name,
+        applicationId: o.application_id,
+        role: o.role,
+      }));
   }
 
   function zodSchemaInternalRoleAccess() {
-      return z
+    return z
       .object({
-          application_id: zodSchemaUUID(),
-          id: zodSchemaUUID().optional().nullable(),
-          role: z.string()
+        application_id: zodSchemaUUID(),
+        id: zodSchemaUUID().optional().nullable(),
+        role: z.string(),
       })
-      .nonstrict();
+      .nonstrict()
+      .transform((o) => ({
+        applicationId: o.application_id,
+        id: o.id,
+        role: o.role,
+      }));
   }
 
   function zodSchemaInternalUserPermissions() {
-      return z
+    return z
       .object({
-          applications: z.array(zodSchemaApplication()),
-          is_admin: z.boolean(),
-          roles: z.array(z.string())
+        applications: z.array(zodSchemaApplication()),
+        is_admin: z.boolean(),
+        roles: z.array(z.string()),
       })
-      .nonstrict();
+      .nonstrict()
+      .transform((o) => ({
+        applications: o.applications,
+        isAdmin: o.is_admin,
+        roles: o.roles,
+      }));
   }
 
   function zodSchemaMessageValidationResponse() {
-      return z
+    return z
       .object({
-          errors: z.record(z.array(z.string()))
+        errors: z.record(z.array(z.string())),
       })
-      .nonstrict();
+      .nonstrict()
+      .transform((o) => ({
+        errors: o.errors,
+      }));
   }
 
   function zodSchemaMeta() {
-      return z
+    return z
       .object({
-          count: z.number().int()
+        count: z.number().int(),
       })
-      .nonstrict();
+      .nonstrict()
+      .transform((o) => ({
+        count: o.count,
+      }));
   }
 
   function zodSchemaNotificationHistory() {
-      return z
+    return z
       .object({
-          created: z.string().optional().nullable(),
-          details: z.record(z.unknown()).optional().nullable(),
-          endpointId: zodSchemaUUID().optional().nullable(),
-          endpointSubType: z.string().optional().nullable(),
-          endpointType: zodSchemaEndpointType().optional().nullable(),
-          id: zodSchemaUUID().optional().nullable(),
-          invocationResult: z.boolean(),
-          invocationTime: z.number().int()
+        created: z.string().optional().nullable(),
+        details: z.record(z.unknown()).optional().nullable(),
+        endpointId: zodSchemaUUID().optional().nullable(),
+        endpointSubType: z.string().optional().nullable(),
+        endpointType: zodSchemaEndpointType().optional().nullable(),
+        id: zodSchemaUUID().optional().nullable(),
+        invocationResult: z.boolean(),
+        invocationTime: z.number().int(),
       })
-      .nonstrict();
+      .nonstrict()
+      .transform((o) => ({
+        created: o.created,
+        details: o.details,
+        endpointId: o.endpointId,
+        endpointSubType: o.endpointSubType,
+        endpointType: o.endpointType,
+        id: o.id,
+        invocationResult: o.invocationResult,
+        invocationTime: o.invocationTime,
+      }));
   }
 
   function zodSchemaPageEventLogEntry() {
-      return z
+    return z
       .object({
-          data: z.array(zodSchemaEventLogEntry()),
-          links: z.record(z.string()),
-          meta: zodSchemaMeta()
+        data: z.array(zodSchemaEventLogEntry()),
+        links: z.record(z.string()),
+        meta: zodSchemaMeta(),
       })
-      .nonstrict();
+      .nonstrict()
+      .transform((o) => ({
+        data: o.data,
+        links: o.links,
+        meta: o.meta,
+      }));
   }
 
   function zodSchemaPageEventType() {
-      return z
+    return z
       .object({
-          data: z.array(zodSchemaEventType()),
-          links: z.record(z.string()),
-          meta: zodSchemaMeta()
+        data: z.array(zodSchemaEventType()),
+        links: z.record(z.string()),
+        meta: zodSchemaMeta(),
       })
-      .nonstrict();
+      .nonstrict()
+      .transform((o) => ({
+        data: o.data,
+        links: o.links,
+        meta: o.meta,
+      }));
   }
 
   function zodSchemaRenderEmailTemplateRequest() {
-      return z
+    return z
       .object({
-          body_template: z.string(),
-          payload: z.string(),
-          subject_template: z.string()
+        body_template: z.string(),
+        payload: z.string(),
+        subject_template: z.string(),
       })
-      .nonstrict();
+      .nonstrict()
+      .transform((o) => ({
+        bodyTemplate: o.body_template,
+        payload: o.payload,
+        subjectTemplate: o.subject_template,
+      }));
   }
 
   function zodSchemaRequestDefaultBehaviorGroupPropertyList() {
-      return z
+    return z
       .object({
-          ignore_preferences: z.boolean(),
-          only_admins: z.boolean()
+        ignore_preferences: z.boolean(),
+        only_admins: z.boolean(),
       })
-      .nonstrict();
+      .nonstrict()
+      .transform((o) => ({
+        ignorePreferences: o.ignore_preferences,
+        onlyAdmins: o.only_admins,
+      }));
   }
 
   function zodSchemaRequestEmailSubscriptionProperties() {
-      return z
+    return z
       .object({
-          group_id: zodSchemaUUID().optional().nullable(),
-          only_admins: z.boolean()
+        group_id: zodSchemaUUID().optional().nullable(),
+        only_admins: z.boolean(),
       })
-      .nonstrict();
+      .nonstrict()
+      .transform((o) => ({
+        groupId: o.group_id,
+        onlyAdmins: o.only_admins,
+      }));
   }
 
   function zodSchemaServerInfo() {
-      return z
+    return z
       .object({
-          environment: zodSchemaEnvironment().optional().nullable()
+        environment: zodSchemaEnvironment().optional().nullable(),
       })
-      .nonstrict();
+      .nonstrict()
+      .transform((o) => ({
+        environment: o.environment,
+      }));
   }
 
   function zodSchemaStatus() {
-      return z.enum([ 'UP', 'MAINTENANCE' ]);
+    return z.enum(["UP", "MAINTENANCE"]);
   }
 
   function zodSchemaTemplate() {
-      return z
+    return z
       .object({
-          created: z.string().optional().nullable(),
-          data: z.string(),
-          description: z.string(),
-          id: zodSchemaUUID().optional().nullable(),
-          name: z.string(),
-          updated: z.string().optional().nullable()
+        created: z.string().optional().nullable(),
+        data: z.string(),
+        description: z.string(),
+        id: zodSchemaUUID().optional().nullable(),
+        name: z.string(),
+        updated: z.string().optional().nullable(),
       })
-      .nonstrict();
+      .nonstrict()
+      .transform((o) => ({
+        created: o.created,
+        data: o.data,
+        description: o.description,
+        id: o.id,
+        name: o.name,
+        updated: o.updated,
+      }));
   }
 
   function zodSchemaUUID() {
-      return z.string();
+    return z.string();
   }
 
   function zodSchemaWebhookProperties() {
-      return z
+    return z
       .object({
-          basic_authentication: zodSchemaBasicAuthentication()
+        basic_authentication: zodSchemaBasicAuthentication()
           .optional()
           .nullable(),
-          disable_ssl_verification: z.boolean(),
-          method: zodSchemaHttpType(),
-          secret_token: z.string().optional().nullable(),
-          url: z.string()
+        disable_ssl_verification: z.boolean(),
+        method: zodSchemaHttpType(),
+        secret_token: z.string().optional().nullable(),
+        url: z.string(),
       })
-      .nonstrict();
+      .nonstrict()
+      .transform((o) => ({
+        basicAuthentication: o.basic_authentication,
+        disableSslVerification: o.disable_ssl_verification,
+        method: o.method,
+        secretToken: o.secret_token,
+        url: o.url,
+      }));
   }
 
   function zodSchema__Empty() {
-      return z.string().max(0).optional();
+    return z.string().max(0).optional();
   }
 }
 
-export namespace Operations {
-  // POST /notifications/behaviorGroups
-  // Create a behavior group.
-  export namespace NotificationResourceCreateBehaviorGroup {
+export module Operations {
+  export module NotificationResourceCreateBehaviorGroup {
     export interface Params {
       body: Schemas.BehaviorGroup;
     }
 
     export type Payload =
-      | ValidatedResponse<'BehaviorGroup', 200, Schemas.BehaviorGroup>
-      | ValidatedResponse<'__Empty', 401, Schemas.__Empty>
-      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
-      | ValidatedResponse<'unknown', undefined, unknown>;
-    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
-    export const actionCreator = (params: Params): ActionCreator => {
-        const path = '/api/notifications/v1.0/notifications/behaviorGroups';
-        const query = {} as Record<string, any>;
-        return actionBuilder('POST', path)
-        .queryParams(query)
-        .data(params.body)
-        .config({
-            rules: [
-                new ValidateRule(Schemas.BehaviorGroup, 'BehaviorGroup', 200),
-                new ValidateRule(Schemas.__Empty, '__Empty', 401),
-                new ValidateRule(Schemas.__Empty, '__Empty', 403)
-            ]
-        })
-        .build();
-    };
+      | ValidatedResponse<"BehaviorGroup", 200, Schemas.BehaviorGroup>
+      | ValidatedResponse<"__Empty", 401, Schemas.__Empty>
+      | ValidatedResponse<"__Empty", 403, Schemas.__Empty>
+      | ValidatedResponse<"unknown", undefined, unknown>;
   }
-  // GET /notifications/behaviorGroups/affectedByRemovalOfEndpoint/{endpointId}
-  // Retrieve the behavior groups affected by the removal of an endpoint.
-  export namespace NotificationResourceGetBehaviorGroupsAffectedByRemovalOfEndpoint {
-    const Response200 = z.array(Schemas.BehaviorGroup);
-    type Response200 = Array<Schemas.BehaviorGroup>;
+  export module NotificationResourceGetBehaviorGroupsAffectedByRemovalOfEndpoint {
+    export const Response200 = z.array(Schemas.BehaviorGroup);
+    export type Response200 = Array<Schemas.BehaviorGroup>;
     export interface Params {
       endpointId: Schemas.UUID;
     }
 
     export type Payload =
-      | ValidatedResponse<'unknown', 200, Response200>
-      | ValidatedResponse<'__Empty', 401, Schemas.__Empty>
-      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
-      | ValidatedResponse<'unknown', undefined, unknown>;
-    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
-    export const actionCreator = (params: Params): ActionCreator => {
-        const path =
-        '/api/notifications/v1.0/notifications/behaviorGroups/affectedByRemovalOfEndpoint/{endpointId}'.replace(
-            '{endpointId}',
-            params.endpointId.toString()
-        );
-        const query = {} as Record<string, any>;
-        return actionBuilder('GET', path)
-        .queryParams(query)
-        .config({
-            rules: [
-                new ValidateRule(Response200, 'unknown', 200),
-                new ValidateRule(Schemas.__Empty, '__Empty', 401),
-                new ValidateRule(Schemas.__Empty, '__Empty', 403)
-            ]
-        })
-        .build();
-    };
+      | ValidatedResponse<"unknown", 200, Response200>
+      | ValidatedResponse<"__Empty", 401, Schemas.__Empty>
+      | ValidatedResponse<"__Empty", 403, Schemas.__Empty>
+      | ValidatedResponse<"unknown", undefined, unknown>;
   }
-  // PUT /notifications/behaviorGroups/{behaviorGroupId}/actions
-  // Update the list of actions of a behavior group.
-  export namespace NotificationResourceUpdateBehaviorGroupActions {
-    const Body = z.array(z.string());
-    type Body = Array<string>;
-    const Response200 = z.string();
-    type Response200 = string;
+  export module NotificationResourceUpdateBehaviorGroupActions {
+    export const Body = z.array(z.string());
+    export type Body = Array<string>;
+    export const Response200 = z.string();
+    export type Response200 = string;
     export interface Params {
       behaviorGroupId: Schemas.UUID;
       body: Body;
     }
 
     export type Payload =
-      | ValidatedResponse<'unknown', 200, Response200>
-      | ValidatedResponse<'__Empty', 401, Schemas.__Empty>
-      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
-      | ValidatedResponse<'unknown', undefined, unknown>;
-    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
-    export const actionCreator = (params: Params): ActionCreator => {
-        const path =
-        '/api/notifications/v1.0/notifications/behaviorGroups/{behaviorGroupId}/actions'.replace(
-            '{behaviorGroupId}',
-            params.behaviorGroupId.toString()
-        );
-        const query = {} as Record<string, any>;
-        return actionBuilder('PUT', path)
-        .queryParams(query)
-        .data(params.body)
-        .config({
-            rules: [
-                new ValidateRule(Response200, 'unknown', 200),
-                new ValidateRule(Schemas.__Empty, '__Empty', 401),
-                new ValidateRule(Schemas.__Empty, '__Empty', 403)
-            ]
-        })
-        .build();
-    };
+      | ValidatedResponse<"unknown", 200, Response200>
+      | ValidatedResponse<"__Empty", 401, Schemas.__Empty>
+      | ValidatedResponse<"__Empty", 403, Schemas.__Empty>
+      | ValidatedResponse<"unknown", undefined, unknown>;
   }
-  // PUT /notifications/behaviorGroups/{id}
-  // Update a behavior group.
-  export namespace NotificationResourceUpdateBehaviorGroup {
-    const Response200 = z.boolean();
-    type Response200 = boolean;
+  export module NotificationResourceUpdateBehaviorGroup {
+    export const Response200 = z.boolean();
+    export type Response200 = boolean;
     export interface Params {
       id: Schemas.UUID;
       body: Schemas.BehaviorGroup;
     }
 
     export type Payload =
-      | ValidatedResponse<'unknown', 200, Response200>
-      | ValidatedResponse<'__Empty', 401, Schemas.__Empty>
-      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
-      | ValidatedResponse<'unknown', undefined, unknown>;
-    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
-    export const actionCreator = (params: Params): ActionCreator => {
-        const path =
-        '/api/notifications/v1.0/notifications/behaviorGroups/{id}'.replace(
-            '{id}',
-            params.id.toString()
-        );
-        const query = {} as Record<string, any>;
-        return actionBuilder('PUT', path)
-        .queryParams(query)
-        .data(params.body)
-        .config({
-            rules: [
-                new ValidateRule(Response200, 'unknown', 200),
-                new ValidateRule(Schemas.__Empty, '__Empty', 401),
-                new ValidateRule(Schemas.__Empty, '__Empty', 403)
-            ]
-        })
-        .build();
-    };
+      | ValidatedResponse<"unknown", 200, Response200>
+      | ValidatedResponse<"__Empty", 401, Schemas.__Empty>
+      | ValidatedResponse<"__Empty", 403, Schemas.__Empty>
+      | ValidatedResponse<"unknown", undefined, unknown>;
   }
-  // DELETE /notifications/behaviorGroups/{id}
-  // Delete a behavior group.
-  export namespace NotificationResourceDeleteBehaviorGroup {
-    const Response200 = z.boolean();
-    type Response200 = boolean;
+  export module NotificationResourceDeleteBehaviorGroup {
+    export const Response200 = z.boolean();
+    export type Response200 = boolean;
     export interface Params {
       id: Schemas.UUID;
     }
 
     export type Payload =
-      | ValidatedResponse<'unknown', 200, Response200>
-      | ValidatedResponse<'__Empty', 401, Schemas.__Empty>
-      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
-      | ValidatedResponse<'unknown', undefined, unknown>;
-    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
-    export const actionCreator = (params: Params): ActionCreator => {
-        const path =
-        '/api/notifications/v1.0/notifications/behaviorGroups/{id}'.replace(
-            '{id}',
-            params.id.toString()
-        );
-        const query = {} as Record<string, any>;
-        return actionBuilder('DELETE', path)
-        .queryParams(query)
-        .config({
-            rules: [
-                new ValidateRule(Response200, 'unknown', 200),
-                new ValidateRule(Schemas.__Empty, '__Empty', 401),
-                new ValidateRule(Schemas.__Empty, '__Empty', 403)
-            ]
-        })
-        .build();
-    };
+      | ValidatedResponse<"unknown", 200, Response200>
+      | ValidatedResponse<"__Empty", 401, Schemas.__Empty>
+      | ValidatedResponse<"__Empty", 403, Schemas.__Empty>
+      | ValidatedResponse<"unknown", undefined, unknown>;
   }
-  // GET /notifications/bundles/{bundleId}/behaviorGroups
-  // Retrieve the behavior groups of a bundle.
-  export namespace NotificationResourceFindBehaviorGroupsByBundleId {
-    const Response200 = z.array(Schemas.BehaviorGroup);
-    type Response200 = Array<Schemas.BehaviorGroup>;
+  export module NotificationResourceFindBehaviorGroupsByBundleId {
+    export const Response200 = z.array(Schemas.BehaviorGroup);
+    export type Response200 = Array<Schemas.BehaviorGroup>;
     export interface Params {
       bundleId: Schemas.UUID;
     }
 
     export type Payload =
-      | ValidatedResponse<'unknown', 200, Response200>
-      | ValidatedResponse<'__Empty', 401, Schemas.__Empty>
-      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
-      | ValidatedResponse<'unknown', undefined, unknown>;
-    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
-    export const actionCreator = (params: Params): ActionCreator => {
-        const path =
-        '/api/notifications/v1.0/notifications/bundles/{bundleId}/behaviorGroups'.replace(
-            '{bundleId}',
-            params.bundleId.toString()
-        );
-        const query = {} as Record<string, any>;
-        return actionBuilder('GET', path)
-        .queryParams(query)
-        .config({
-            rules: [
-                new ValidateRule(Response200, 'unknown', 200),
-                new ValidateRule(Schemas.__Empty, '__Empty', 401),
-                new ValidateRule(Schemas.__Empty, '__Empty', 403)
-            ]
-        })
-        .build();
-    };
+      | ValidatedResponse<"unknown", 200, Response200>
+      | ValidatedResponse<"__Empty", 401, Schemas.__Empty>
+      | ValidatedResponse<"__Empty", 403, Schemas.__Empty>
+      | ValidatedResponse<"unknown", undefined, unknown>;
   }
-  // GET /notifications/eventTypes
-  // Retrieve all event types. The returned list can be filtered by bundle or application.
-  export namespace NotificationResourceGetEventTypes {
+  export module NotificationResourceGetEventTypes {
     const ApplicationIds = z.array(z.string());
     type ApplicationIds = Array<string>;
     const EventTypeName = z.string();
@@ -1012,91 +1100,25 @@ export namespace Operations {
     }
 
     export type Payload =
-      | ValidatedResponse<'PageEventType', 200, Schemas.PageEventType>
-      | ValidatedResponse<'__Empty', 401, Schemas.__Empty>
-      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
-      | ValidatedResponse<'unknown', undefined, unknown>;
-    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
-    export const actionCreator = (params: Params): ActionCreator => {
-        const path = '/api/notifications/v1.0/notifications/eventTypes';
-        const query = {} as Record<string, any>;
-        if (params.applicationIds !== undefined) {
-            query.applicationIds = params.applicationIds;
-        }
-
-        if (params.bundleId !== undefined) {
-            query.bundleId = params.bundleId;
-        }
-
-        if (params.eventTypeName !== undefined) {
-            query.eventTypeName = params.eventTypeName;
-        }
-
-        if (params.limit !== undefined) {
-            query.limit = params.limit;
-        }
-
-        if (params.offset !== undefined) {
-            query.offset = params.offset;
-        }
-
-        if (params.pageNumber !== undefined) {
-            query.pageNumber = params.pageNumber;
-        }
-
-        if (params.sortBy !== undefined) {
-            query.sort_by = params.sortBy;
-        }
-
-        return actionBuilder('GET', path)
-        .queryParams(query)
-        .config({
-            rules: [
-                new ValidateRule(Schemas.PageEventType, 'PageEventType', 200),
-                new ValidateRule(Schemas.__Empty, '__Empty', 401),
-                new ValidateRule(Schemas.__Empty, '__Empty', 403)
-            ]
-        })
-        .build();
-    };
+      | ValidatedResponse<"PageEventType", 200, Schemas.PageEventType>
+      | ValidatedResponse<"__Empty", 401, Schemas.__Empty>
+      | ValidatedResponse<"__Empty", 403, Schemas.__Empty>
+      | ValidatedResponse<"unknown", undefined, unknown>;
   }
-  // GET /notifications/eventTypes/affectedByRemovalOfBehaviorGroup/{behaviorGroupId}
-  // Retrieve the event types affected by the removal of a behavior group.
-  export namespace NotificationResourceGetEventTypesAffectedByRemovalOfBehaviorGroup {
-    const Response200 = z.array(Schemas.EventType);
-    type Response200 = Array<Schemas.EventType>;
+  export module NotificationResourceGetEventTypesAffectedByRemovalOfBehaviorGroup {
+    export const Response200 = z.array(Schemas.EventType);
+    export type Response200 = Array<Schemas.EventType>;
     export interface Params {
       behaviorGroupId: Schemas.UUID;
     }
 
     export type Payload =
-      | ValidatedResponse<'unknown', 200, Response200>
-      | ValidatedResponse<'__Empty', 401, Schemas.__Empty>
-      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
-      | ValidatedResponse<'unknown', undefined, unknown>;
-    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
-    export const actionCreator = (params: Params): ActionCreator => {
-        const path =
-        '/api/notifications/v1.0/notifications/eventTypes/affectedByRemovalOfBehaviorGroup/{behaviorGroupId}'.replace(
-            '{behaviorGroupId}',
-            params.behaviorGroupId.toString()
-        );
-        const query = {} as Record<string, any>;
-        return actionBuilder('GET', path)
-        .queryParams(query)
-        .config({
-            rules: [
-                new ValidateRule(Response200, 'unknown', 200),
-                new ValidateRule(Schemas.__Empty, '__Empty', 401),
-                new ValidateRule(Schemas.__Empty, '__Empty', 403)
-            ]
-        })
-        .build();
-    };
+      | ValidatedResponse<"unknown", 200, Response200>
+      | ValidatedResponse<"__Empty", 401, Schemas.__Empty>
+      | ValidatedResponse<"__Empty", 403, Schemas.__Empty>
+      | ValidatedResponse<"unknown", undefined, unknown>;
   }
-  // GET /notifications/eventTypes/{eventTypeId}/behaviorGroups
-  // Retrieve the behavior groups linked to an event type.
-  export namespace NotificationResourceGetLinkedBehaviorGroups {
+  export module NotificationResourceGetLinkedBehaviorGroups {
     const Limit = z.number().int();
     type Limit = number;
     const Offset = z.number().int();
@@ -1105,8 +1127,8 @@ export namespace Operations {
     type PageNumber = number;
     const SortBy = z.string();
     type SortBy = string;
-    const Response200 = z.array(Schemas.BehaviorGroup);
-    type Response200 = Array<Schemas.BehaviorGroup>;
+    export const Response200 = z.array(Schemas.BehaviorGroup);
+    export type Response200 = Array<Schemas.BehaviorGroup>;
     export interface Params {
       eventTypeId: Schemas.UUID;
       limit?: Limit;
@@ -1116,87 +1138,28 @@ export namespace Operations {
     }
 
     export type Payload =
-      | ValidatedResponse<'unknown', 200, Response200>
-      | ValidatedResponse<'__Empty', 401, Schemas.__Empty>
-      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
-      | ValidatedResponse<'unknown', undefined, unknown>;
-    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
-    export const actionCreator = (params: Params): ActionCreator => {
-        const path =
-        '/api/notifications/v1.0/notifications/eventTypes/{eventTypeId}/behaviorGroups'.replace(
-            '{eventTypeId}',
-            params.eventTypeId.toString()
-        );
-        const query = {} as Record<string, any>;
-        if (params.limit !== undefined) {
-            query.limit = params.limit;
-        }
-
-        if (params.offset !== undefined) {
-            query.offset = params.offset;
-        }
-
-        if (params.pageNumber !== undefined) {
-            query.pageNumber = params.pageNumber;
-        }
-
-        if (params.sortBy !== undefined) {
-            query.sort_by = params.sortBy;
-        }
-
-        return actionBuilder('GET', path)
-        .queryParams(query)
-        .config({
-            rules: [
-                new ValidateRule(Response200, 'unknown', 200),
-                new ValidateRule(Schemas.__Empty, '__Empty', 401),
-                new ValidateRule(Schemas.__Empty, '__Empty', 403)
-            ]
-        })
-        .build();
-    };
+      | ValidatedResponse<"unknown", 200, Response200>
+      | ValidatedResponse<"__Empty", 401, Schemas.__Empty>
+      | ValidatedResponse<"__Empty", 403, Schemas.__Empty>
+      | ValidatedResponse<"unknown", undefined, unknown>;
   }
-  // PUT /notifications/eventTypes/{eventTypeId}/behaviorGroups
-  // Update the list of behavior groups of an event type.
-  export namespace NotificationResourceUpdateEventTypeBehaviors {
-    const Body = z.array(z.string());
-    type Body = Array<string>;
-    const Response200 = z.string();
-    type Response200 = string;
+  export module NotificationResourceUpdateEventTypeBehaviors {
+    export const Body = z.array(z.string());
+    export type Body = Array<string>;
+    export const Response200 = z.string();
+    export type Response200 = string;
     export interface Params {
       eventTypeId: Schemas.UUID;
       body: Body;
     }
 
     export type Payload =
-      | ValidatedResponse<'unknown', 200, Response200>
-      | ValidatedResponse<'__Empty', 401, Schemas.__Empty>
-      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
-      | ValidatedResponse<'unknown', undefined, unknown>;
-    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
-    export const actionCreator = (params: Params): ActionCreator => {
-        const path =
-        '/api/notifications/v1.0/notifications/eventTypes/{eventTypeId}/behaviorGroups'.replace(
-            '{eventTypeId}',
-            params.eventTypeId.toString()
-        );
-        const query = {} as Record<string, any>;
-        return actionBuilder('PUT', path)
-        .queryParams(query)
-        .data(params.body)
-        .config({
-            rules: [
-                new ValidateRule(Response200, 'unknown', 200),
-                new ValidateRule(Schemas.__Empty, '__Empty', 401),
-                new ValidateRule(Schemas.__Empty, '__Empty', 403)
-            ]
-        })
-        .build();
-    };
+      | ValidatedResponse<"unknown", 200, Response200>
+      | ValidatedResponse<"__Empty", 401, Schemas.__Empty>
+      | ValidatedResponse<"__Empty", 403, Schemas.__Empty>
+      | ValidatedResponse<"unknown", undefined, unknown>;
   }
-  // GET /notifications/events
-  // Retrieve the event log entries.
-  export namespace EventResourceGetEvents {
+  export module EventResourceGetEvents {
     const AppIds = z.array(z.string());
     type AppIds = Array<string>;
     const BundleIds = z.array(z.string());
@@ -1240,168 +1203,794 @@ export namespace Operations {
     }
 
     export type Payload =
-      | ValidatedResponse<'PageEventLogEntry', 200, Schemas.PageEventLogEntry>
-      | ValidatedResponse<'__Empty', 401, Schemas.__Empty>
-      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
-      | ValidatedResponse<'unknown', undefined, unknown>;
-    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
-    export const actionCreator = (params: Params): ActionCreator => {
-        const path = '/api/notifications/v1.0/notifications/events';
-        const query = {} as Record<string, any>;
-        if (params.appIds !== undefined) {
-            query.appIds = params.appIds;
-        }
-
-        if (params.bundleIds !== undefined) {
-            query.bundleIds = params.bundleIds;
-        }
-
-        if (params.endDate !== undefined) {
-            query.endDate = params.endDate;
-        }
-
-        if (params.endpointTypes !== undefined) {
-            query.endpointTypes = params.endpointTypes;
-        }
-
-        if (params.eventTypeDisplayName !== undefined) {
-            query.eventTypeDisplayName = params.eventTypeDisplayName;
-        }
-
-        if (params.includeActions !== undefined) {
-            query.includeActions = params.includeActions;
-        }
-
-        if (params.includeDetails !== undefined) {
-            query.includeDetails = params.includeDetails;
-        }
-
-        if (params.includePayload !== undefined) {
-            query.includePayload = params.includePayload;
-        }
-
-        if (params.invocationResults !== undefined) {
-            query.invocationResults = params.invocationResults;
-        }
-
-        if (params.limit !== undefined) {
-            query.limit = params.limit;
-        }
-
-        if (params.offset !== undefined) {
-            query.offset = params.offset;
-        }
-
-        if (params.sortBy !== undefined) {
-            query.sortBy = params.sortBy;
-        }
-
-        if (params.startDate !== undefined) {
-            query.startDate = params.startDate;
-        }
-
-        return actionBuilder('GET', path)
-        .queryParams(query)
-        .config({
-            rules: [
-                new ValidateRule(
-                    Schemas.PageEventLogEntry,
-                    'PageEventLogEntry',
-                    200
-                ),
-                new ValidateRule(Schemas.__Empty, '__Empty', 401),
-                new ValidateRule(Schemas.__Empty, '__Empty', 403)
-            ]
-        })
-        .build();
-    };
+      | ValidatedResponse<"PageEventLogEntry", 200, Schemas.PageEventLogEntry>
+      | ValidatedResponse<"__Empty", 401, Schemas.__Empty>
+      | ValidatedResponse<"__Empty", 403, Schemas.__Empty>
+      | ValidatedResponse<"unknown", undefined, unknown>;
   }
-  // GET /notifications/facets/applications
-  // Return a thin list of configured applications. This can be used to configure a filter in the UI
-  export namespace NotificationResourceGetApplicationsFacets {
+  export module NotificationResourceGetApplicationsFacets {
     const BundleName = z.string();
     type BundleName = string;
-    const Response200 = z.array(Schemas.Facet);
-    type Response200 = Array<Schemas.Facet>;
+    export const Response200 = z.array(Schemas.Facet);
+    export type Response200 = Array<Schemas.Facet>;
     export interface Params {
       bundleName?: BundleName;
     }
 
     export type Payload =
-      | ValidatedResponse<'unknown', 200, Response200>
-      | ValidatedResponse<'unknown', undefined, unknown>;
-    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
-    export const actionCreator = (params: Params): ActionCreator => {
-        const path = '/api/notifications/v1.0/notifications/facets/applications';
-        const query = {} as Record<string, any>;
-        if (params.bundleName !== undefined) {
-            query.bundleName = params.bundleName;
-        }
-
-        return actionBuilder('GET', path)
-        .queryParams(query)
-        .config({
-            rules: [ new ValidateRule(Response200, 'unknown', 200) ]
-        })
-        .build();
-    };
+      | ValidatedResponse<"unknown", 200, Response200>
+      | ValidatedResponse<"unknown", undefined, unknown>;
   }
-  // GET /notifications/facets/bundles
-  // Return a thin list of configured bundles. This can be used to configure a filter in the UI
-  export namespace NotificationResourceGetBundleFacets {
+  export module NotificationResourceGetBundleFacets {
     const IncludeApplications = z.boolean();
     type IncludeApplications = boolean;
-    const Response200 = z.array(Schemas.Facet);
-    type Response200 = Array<Schemas.Facet>;
+    export const Response200 = z.array(Schemas.Facet);
+    export type Response200 = Array<Schemas.Facet>;
     export interface Params {
       includeApplications?: IncludeApplications;
     }
 
     export type Payload =
-      | ValidatedResponse<'unknown', 200, Response200>
-      | ValidatedResponse<'unknown', undefined, unknown>;
-    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
-    export const actionCreator = (params: Params): ActionCreator => {
-        const path = '/api/notifications/v1.0/notifications/facets/bundles';
-        const query = {} as Record<string, any>;
-        if (params.includeApplications !== undefined) {
-            query.includeApplications = params.includeApplications;
-        }
-
-        return actionBuilder('GET', path)
-        .queryParams(query)
-        .config({
-            rules: [ new ValidateRule(Response200, 'unknown', 200) ]
-        })
-        .build();
-    };
+      | ValidatedResponse<"unknown", 200, Response200>
+      | ValidatedResponse<"unknown", undefined, unknown>;
   }
-  // DELETE /notifications/{id}
-  export namespace NotificationResourceMarkRead {
+  export module NotificationResourceMarkRead {
     const Id = z.number().int();
     type Id = number;
-    const Response204 = z.string();
-    type Response204 = string;
+    export const Response204 = z.string();
+    export type Response204 = string;
     export interface Params {
       id: Id;
     }
 
     export type Payload =
-      | ValidatedResponse<'unknown', 204, Response204>
-      | ValidatedResponse<'unknown', undefined, unknown>;
-    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
-    export const actionCreator = (params: Params): ActionCreator => {
-        const path = '/api/notifications/v1.0/notifications/{id}'.replace(
-            '{id}',
-            params.id.toString()
-        );
-        const query = {} as Record<string, any>;
-        return actionBuilder('DELETE', path)
+      | ValidatedResponse<"unknown", 204, Response204>
+      | ValidatedResponse<"unknown", undefined, unknown>;
+  }
+  export module FromObHistoryFillerHandleCallback {
+    export const Body = z.string();
+    export type Body = string;
+    export interface Params {
+      xRhoseOriginalEventId?: Schemas.UUID;
+      body: Body;
+    }
+
+    export type Payload =
+      | ValidatedResponse<"__Empty", 200, Schemas.__Empty>
+      | ValidatedResponse<"unknown", undefined, unknown>;
+  }
+}
+
+const createClient = () => {
+  // POST /notifications/behaviorGroups
+  // Create a behavior group.
+  const NotificationResourceCreateBehaviorGroup = (() => {
+    type ActionCreator =
+      Action<Operations.NotificationResourceCreateBehaviorGroup.Payload>;
+    const actionCreator = (
+      params: Operations.NotificationResourceCreateBehaviorGroup.Params
+    ): ActionCreator => {
+      const path = "/api/notifications/v1.0/notifications/behaviorGroups";
+      const query = {} as Record<string, any>;
+      return actionBuilder("POST", path)
         .queryParams(query)
-        .config({
-            rules: [ new ValidateRule(Response204, 'unknown', 204) ]
+        .data({
+          actions: params.body.actions,
+          bundle: params.body.bundle,
+          bundle_id: params.body.bundleId,
+          created: params.body.created,
+          default_behavior: params.body.defaultBehavior,
+          display_name: params.body.displayName,
+          id: params.body.id,
+          updated: params.body.updated,
         })
         .build();
     };
-  }
-}
+    const rules = [
+      new ValidateRule(Schemas.BehaviorGroup, "BehaviorGroup", 200),
+      new ValidateRule(Schemas.__Empty, "__Empty", 401),
+      new ValidateRule(Schemas.__Empty, "__Empty", 403),
+    ];
+    const useMutation = () =>
+      useWrappedMutation<
+        Operations.NotificationResourceCreateBehaviorGroup.Payload,
+        Operations.NotificationResourceCreateBehaviorGroup.Params
+      >(actionCreator, rules);
+    const useRequest = () =>
+      useWrappedRequest<
+        Operations.NotificationResourceCreateBehaviorGroup.Payload,
+        Operations.NotificationResourceCreateBehaviorGroup.Params
+      >(actionCreator, rules);
+    return { useMutation, useRequest };
+  })();
+  // GET /notifications/behaviorGroups/affectedByRemovalOfEndpoint/{endpointId}
+  // Retrieve the behavior groups affected by the removal of an endpoint.
+  const NotificationResourceGetBehaviorGroupsAffectedByRemovalOfEndpoint =
+    (() => {
+      type ActionCreator =
+        Action<Operations.NotificationResourceGetBehaviorGroupsAffectedByRemovalOfEndpoint.Payload>;
+      const actionCreator = (
+        params: Operations.NotificationResourceGetBehaviorGroupsAffectedByRemovalOfEndpoint.Params
+      ): ActionCreator => {
+        const path =
+          "/api/notifications/v1.0/notifications/behaviorGroups/affectedByRemovalOfEndpoint/{endpointId}".replace(
+            "{endpointId}",
+            params["endpointId"].toString()
+          );
+        const query = {} as Record<string, any>;
+        return actionBuilder("GET", path).queryParams(query).build();
+      };
+      const rules = [
+        new ValidateRule(
+          Operations.NotificationResourceGetBehaviorGroupsAffectedByRemovalOfEndpoint.Response200,
+          "unknown",
+          200
+        ),
+        new ValidateRule(Schemas.__Empty, "__Empty", 401),
+        new ValidateRule(Schemas.__Empty, "__Empty", 403),
+      ];
+      const useQuery = (
+        params: Operations.NotificationResourceGetBehaviorGroupsAffectedByRemovalOfEndpoint.Params,
+        initFetch?: boolean
+      ) =>
+        useWrappedQuery<Operations.NotificationResourceGetBehaviorGroupsAffectedByRemovalOfEndpoint.Payload>(
+          actionCreator(params),
+          rules,
+          initFetch
+        );
+      const useParameterizedQuery = () =>
+        useWrappedParameterizedQuery<
+          Operations.NotificationResourceGetBehaviorGroupsAffectedByRemovalOfEndpoint.Payload,
+          Operations.NotificationResourceGetBehaviorGroupsAffectedByRemovalOfEndpoint.Params
+        >(actionCreator, rules);
+      const useRequest = () =>
+        useWrappedRequest<
+          Operations.NotificationResourceGetBehaviorGroupsAffectedByRemovalOfEndpoint.Payload,
+          Operations.NotificationResourceGetBehaviorGroupsAffectedByRemovalOfEndpoint.Params
+        >(actionCreator, rules);
+      return { useQuery, useParameterizedQuery, useRequest };
+    })();
+  // PUT /notifications/behaviorGroups/{behaviorGroupId}/actions
+  // Update the list of actions of a behavior group.
+  const NotificationResourceUpdateBehaviorGroupActions = (() => {
+    type ActionCreator =
+      Action<Operations.NotificationResourceUpdateBehaviorGroupActions.Payload>;
+    const actionCreator = (
+      params: Operations.NotificationResourceUpdateBehaviorGroupActions.Params
+    ): ActionCreator => {
+      const path =
+        "/api/notifications/v1.0/notifications/behaviorGroups/{behaviorGroupId}/actions".replace(
+          "{behaviorGroupId}",
+          params["behaviorGroupId"].toString()
+        );
+      const query = {} as Record<string, any>;
+      return actionBuilder("PUT", path)
+        .queryParams(query)
+        .data(params.body)
+        .build();
+    };
+    const rules = [
+      new ValidateRule(
+        Operations.NotificationResourceUpdateBehaviorGroupActions.Response200,
+        "unknown",
+        200
+      ),
+      new ValidateRule(Schemas.__Empty, "__Empty", 401),
+      new ValidateRule(Schemas.__Empty, "__Empty", 403),
+    ];
+    const useMutation = () =>
+      useWrappedMutation<
+        Operations.NotificationResourceUpdateBehaviorGroupActions.Payload,
+        Operations.NotificationResourceUpdateBehaviorGroupActions.Params
+      >(actionCreator, rules);
+    const useRequest = () =>
+      useWrappedRequest<
+        Operations.NotificationResourceUpdateBehaviorGroupActions.Payload,
+        Operations.NotificationResourceUpdateBehaviorGroupActions.Params
+      >(actionCreator, rules);
+    return { useMutation, useRequest };
+  })();
+  // PUT /notifications/behaviorGroups/{id}
+  // Update a behavior group.
+  const NotificationResourceUpdateBehaviorGroup = (() => {
+    type ActionCreator =
+      Action<Operations.NotificationResourceUpdateBehaviorGroup.Payload>;
+    const actionCreator = (
+      params: Operations.NotificationResourceUpdateBehaviorGroup.Params
+    ): ActionCreator => {
+      const path =
+        "/api/notifications/v1.0/notifications/behaviorGroups/{id}".replace(
+          "{id}",
+          params["id"].toString()
+        );
+      const query = {} as Record<string, any>;
+      return actionBuilder("PUT", path)
+        .queryParams(query)
+        .data({
+          actions: params.body.actions,
+          bundle: params.body.bundle,
+          bundle_id: params.body.bundleId,
+          created: params.body.created,
+          default_behavior: params.body.defaultBehavior,
+          display_name: params.body.displayName,
+          id: params.body.id,
+          updated: params.body.updated,
+        })
+        .build();
+    };
+    const rules = [
+      new ValidateRule(
+        Operations.NotificationResourceUpdateBehaviorGroup.Response200,
+        "unknown",
+        200
+      ),
+      new ValidateRule(Schemas.__Empty, "__Empty", 401),
+      new ValidateRule(Schemas.__Empty, "__Empty", 403),
+    ];
+    const useMutation = () =>
+      useWrappedMutation<
+        Operations.NotificationResourceUpdateBehaviorGroup.Payload,
+        Operations.NotificationResourceUpdateBehaviorGroup.Params
+      >(actionCreator, rules);
+    const useRequest = () =>
+      useWrappedRequest<
+        Operations.NotificationResourceUpdateBehaviorGroup.Payload,
+        Operations.NotificationResourceUpdateBehaviorGroup.Params
+      >(actionCreator, rules);
+    return { useMutation, useRequest };
+  })();
+  // DELETE /notifications/behaviorGroups/{id}
+  // Delete a behavior group.
+  const NotificationResourceDeleteBehaviorGroup = (() => {
+    type ActionCreator =
+      Action<Operations.NotificationResourceDeleteBehaviorGroup.Payload>;
+    const actionCreator = (
+      params: Operations.NotificationResourceDeleteBehaviorGroup.Params
+    ): ActionCreator => {
+      const path =
+        "/api/notifications/v1.0/notifications/behaviorGroups/{id}".replace(
+          "{id}",
+          params["id"].toString()
+        );
+      const query = {} as Record<string, any>;
+      return actionBuilder("DELETE", path).queryParams(query).build();
+    };
+    const rules = [
+      new ValidateRule(
+        Operations.NotificationResourceDeleteBehaviorGroup.Response200,
+        "unknown",
+        200
+      ),
+      new ValidateRule(Schemas.__Empty, "__Empty", 401),
+      new ValidateRule(Schemas.__Empty, "__Empty", 403),
+    ];
+    const useMutation = () =>
+      useWrappedMutation<
+        Operations.NotificationResourceDeleteBehaviorGroup.Payload,
+        Operations.NotificationResourceDeleteBehaviorGroup.Params
+      >(actionCreator, rules);
+    const useRequest = () =>
+      useWrappedRequest<
+        Operations.NotificationResourceDeleteBehaviorGroup.Payload,
+        Operations.NotificationResourceDeleteBehaviorGroup.Params
+      >(actionCreator, rules);
+    return { useMutation, useRequest };
+  })();
+  // GET /notifications/bundles/{bundleId}/behaviorGroups
+  // Retrieve the behavior groups of a bundle.
+  const NotificationResourceFindBehaviorGroupsByBundleId = (() => {
+    type ActionCreator =
+      Action<Operations.NotificationResourceFindBehaviorGroupsByBundleId.Payload>;
+    const actionCreator = (
+      params: Operations.NotificationResourceFindBehaviorGroupsByBundleId.Params
+    ): ActionCreator => {
+      const path =
+        "/api/notifications/v1.0/notifications/bundles/{bundleId}/behaviorGroups".replace(
+          "{bundleId}",
+          params["bundleId"].toString()
+        );
+      const query = {} as Record<string, any>;
+      return actionBuilder("GET", path).queryParams(query).build();
+    };
+    const rules = [
+      new ValidateRule(
+        Operations.NotificationResourceFindBehaviorGroupsByBundleId.Response200,
+        "unknown",
+        200
+      ),
+      new ValidateRule(Schemas.__Empty, "__Empty", 401),
+      new ValidateRule(Schemas.__Empty, "__Empty", 403),
+    ];
+    const useQuery = (
+      params: Operations.NotificationResourceFindBehaviorGroupsByBundleId.Params,
+      initFetch?: boolean
+    ) =>
+      useWrappedQuery<Operations.NotificationResourceFindBehaviorGroupsByBundleId.Payload>(
+        actionCreator(params),
+        rules,
+        initFetch
+      );
+    const useParameterizedQuery = () =>
+      useWrappedParameterizedQuery<
+        Operations.NotificationResourceFindBehaviorGroupsByBundleId.Payload,
+        Operations.NotificationResourceFindBehaviorGroupsByBundleId.Params
+      >(actionCreator, rules);
+    const useRequest = () =>
+      useWrappedRequest<
+        Operations.NotificationResourceFindBehaviorGroupsByBundleId.Payload,
+        Operations.NotificationResourceFindBehaviorGroupsByBundleId.Params
+      >(actionCreator, rules);
+    return { useQuery, useParameterizedQuery, useRequest };
+  })();
+  // GET /notifications/eventTypes
+  // Retrieve all event types. The returned list can be filtered by bundle or application.
+  const NotificationResourceGetEventTypes = (() => {
+    type ActionCreator =
+      Action<Operations.NotificationResourceGetEventTypes.Payload>;
+    const actionCreator = (
+      params: Operations.NotificationResourceGetEventTypes.Params = {}
+    ): ActionCreator => {
+      const path = "/api/notifications/v1.0/notifications/eventTypes";
+      const query = {} as Record<string, any>;
+      if (params["applicationIds"] !== undefined) {
+        query["applicationIds"] = params["applicationIds"];
+      }
+
+      if (params["bundleId"] !== undefined) {
+        query["bundleId"] = params["bundleId"];
+      }
+
+      if (params["eventTypeName"] !== undefined) {
+        query["eventTypeName"] = params["eventTypeName"];
+      }
+
+      if (params["limit"] !== undefined) {
+        query["limit"] = params["limit"];
+      }
+
+      if (params["offset"] !== undefined) {
+        query["offset"] = params["offset"];
+      }
+
+      if (params["pageNumber"] !== undefined) {
+        query["pageNumber"] = params["pageNumber"];
+      }
+
+      if (params["sortBy"] !== undefined) {
+        query["sort_by"] = params["sortBy"];
+      }
+
+      return actionBuilder("GET", path).queryParams(query).build();
+    };
+    const rules = [
+      new ValidateRule(Schemas.PageEventType, "PageEventType", 200),
+      new ValidateRule(Schemas.__Empty, "__Empty", 401),
+      new ValidateRule(Schemas.__Empty, "__Empty", 403),
+    ];
+    const useQuery = (
+      params: Operations.NotificationResourceGetEventTypes.Params,
+      initFetch?: boolean
+    ) =>
+      useWrappedQuery<Operations.NotificationResourceGetEventTypes.Payload>(
+        actionCreator(params),
+        rules,
+        initFetch
+      );
+    const useParameterizedQuery = () =>
+      useWrappedParameterizedQuery<
+        Operations.NotificationResourceGetEventTypes.Payload,
+        Operations.NotificationResourceGetEventTypes.Params
+      >(actionCreator, rules);
+    const useRequest = () =>
+      useWrappedRequest<
+        Operations.NotificationResourceGetEventTypes.Payload,
+        Operations.NotificationResourceGetEventTypes.Params
+      >(actionCreator, rules);
+    return { useQuery, useParameterizedQuery, useRequest };
+  })();
+  // GET /notifications/eventTypes/affectedByRemovalOfBehaviorGroup/{behaviorGroupId}
+  // Retrieve the event types affected by the removal of a behavior group.
+  const NotificationResourceGetEventTypesAffectedByRemovalOfBehaviorGroup =
+    (() => {
+      type ActionCreator =
+        Action<Operations.NotificationResourceGetEventTypesAffectedByRemovalOfBehaviorGroup.Payload>;
+      const actionCreator = (
+        params: Operations.NotificationResourceGetEventTypesAffectedByRemovalOfBehaviorGroup.Params
+      ): ActionCreator => {
+        const path =
+          "/api/notifications/v1.0/notifications/eventTypes/affectedByRemovalOfBehaviorGroup/{behaviorGroupId}".replace(
+            "{behaviorGroupId}",
+            params["behaviorGroupId"].toString()
+          );
+        const query = {} as Record<string, any>;
+        return actionBuilder("GET", path).queryParams(query).build();
+      };
+      const rules = [
+        new ValidateRule(
+          Operations.NotificationResourceGetEventTypesAffectedByRemovalOfBehaviorGroup.Response200,
+          "unknown",
+          200
+        ),
+        new ValidateRule(Schemas.__Empty, "__Empty", 401),
+        new ValidateRule(Schemas.__Empty, "__Empty", 403),
+      ];
+      const useQuery = (
+        params: Operations.NotificationResourceGetEventTypesAffectedByRemovalOfBehaviorGroup.Params,
+        initFetch?: boolean
+      ) =>
+        useWrappedQuery<Operations.NotificationResourceGetEventTypesAffectedByRemovalOfBehaviorGroup.Payload>(
+          actionCreator(params),
+          rules,
+          initFetch
+        );
+      const useParameterizedQuery = () =>
+        useWrappedParameterizedQuery<
+          Operations.NotificationResourceGetEventTypesAffectedByRemovalOfBehaviorGroup.Payload,
+          Operations.NotificationResourceGetEventTypesAffectedByRemovalOfBehaviorGroup.Params
+        >(actionCreator, rules);
+      const useRequest = () =>
+        useWrappedRequest<
+          Operations.NotificationResourceGetEventTypesAffectedByRemovalOfBehaviorGroup.Payload,
+          Operations.NotificationResourceGetEventTypesAffectedByRemovalOfBehaviorGroup.Params
+        >(actionCreator, rules);
+      return { useQuery, useParameterizedQuery, useRequest };
+    })();
+  // GET /notifications/eventTypes/{eventTypeId}/behaviorGroups
+  // Retrieve the behavior groups linked to an event type.
+  const NotificationResourceGetLinkedBehaviorGroups = (() => {
+    type ActionCreator =
+      Action<Operations.NotificationResourceGetLinkedBehaviorGroups.Payload>;
+    const actionCreator = (
+      params: Operations.NotificationResourceGetLinkedBehaviorGroups.Params
+    ): ActionCreator => {
+      const path =
+        "/api/notifications/v1.0/notifications/eventTypes/{eventTypeId}/behaviorGroups".replace(
+          "{eventTypeId}",
+          params["eventTypeId"].toString()
+        );
+      const query = {} as Record<string, any>;
+      if (params["limit"] !== undefined) {
+        query["limit"] = params["limit"];
+      }
+
+      if (params["offset"] !== undefined) {
+        query["offset"] = params["offset"];
+      }
+
+      if (params["pageNumber"] !== undefined) {
+        query["pageNumber"] = params["pageNumber"];
+      }
+
+      if (params["sortBy"] !== undefined) {
+        query["sort_by"] = params["sortBy"];
+      }
+
+      return actionBuilder("GET", path).queryParams(query).build();
+    };
+    const rules = [
+      new ValidateRule(
+        Operations.NotificationResourceGetLinkedBehaviorGroups.Response200,
+        "unknown",
+        200
+      ),
+      new ValidateRule(Schemas.__Empty, "__Empty", 401),
+      new ValidateRule(Schemas.__Empty, "__Empty", 403),
+    ];
+    const useQuery = (
+      params: Operations.NotificationResourceGetLinkedBehaviorGroups.Params,
+      initFetch?: boolean
+    ) =>
+      useWrappedQuery<Operations.NotificationResourceGetLinkedBehaviorGroups.Payload>(
+        actionCreator(params),
+        rules,
+        initFetch
+      );
+    const useParameterizedQuery = () =>
+      useWrappedParameterizedQuery<
+        Operations.NotificationResourceGetLinkedBehaviorGroups.Payload,
+        Operations.NotificationResourceGetLinkedBehaviorGroups.Params
+      >(actionCreator, rules);
+    const useRequest = () =>
+      useWrappedRequest<
+        Operations.NotificationResourceGetLinkedBehaviorGroups.Payload,
+        Operations.NotificationResourceGetLinkedBehaviorGroups.Params
+      >(actionCreator, rules);
+    return { useQuery, useParameterizedQuery, useRequest };
+  })();
+  // PUT /notifications/eventTypes/{eventTypeId}/behaviorGroups
+  // Update the list of behavior groups of an event type.
+  const NotificationResourceUpdateEventTypeBehaviors = (() => {
+    type ActionCreator =
+      Action<Operations.NotificationResourceUpdateEventTypeBehaviors.Payload>;
+    const actionCreator = (
+      params: Operations.NotificationResourceUpdateEventTypeBehaviors.Params
+    ): ActionCreator => {
+      const path =
+        "/api/notifications/v1.0/notifications/eventTypes/{eventTypeId}/behaviorGroups".replace(
+          "{eventTypeId}",
+          params["eventTypeId"].toString()
+        );
+      const query = {} as Record<string, any>;
+      return actionBuilder("PUT", path)
+        .queryParams(query)
+        .data(params.body)
+        .build();
+    };
+    const rules = [
+      new ValidateRule(
+        Operations.NotificationResourceUpdateEventTypeBehaviors.Response200,
+        "unknown",
+        200
+      ),
+      new ValidateRule(Schemas.__Empty, "__Empty", 401),
+      new ValidateRule(Schemas.__Empty, "__Empty", 403),
+    ];
+    const useMutation = () =>
+      useWrappedMutation<
+        Operations.NotificationResourceUpdateEventTypeBehaviors.Payload,
+        Operations.NotificationResourceUpdateEventTypeBehaviors.Params
+      >(actionCreator, rules);
+    const useRequest = () =>
+      useWrappedRequest<
+        Operations.NotificationResourceUpdateEventTypeBehaviors.Payload,
+        Operations.NotificationResourceUpdateEventTypeBehaviors.Params
+      >(actionCreator, rules);
+    return { useMutation, useRequest };
+  })();
+  // GET /notifications/events
+  // Retrieve the event log entries.
+  const EventResourceGetEvents = (() => {
+    type ActionCreator = Action<Operations.EventResourceGetEvents.Payload>;
+    const actionCreator = (
+      params: Operations.EventResourceGetEvents.Params = {}
+    ): ActionCreator => {
+      const path = "/api/notifications/v1.0/notifications/events";
+      const query = {} as Record<string, any>;
+      if (params["appIds"] !== undefined) {
+        query["appIds"] = params["appIds"];
+      }
+
+      if (params["bundleIds"] !== undefined) {
+        query["bundleIds"] = params["bundleIds"];
+      }
+
+      if (params["endDate"] !== undefined) {
+        query["endDate"] = params["endDate"];
+      }
+
+      if (params["endpointTypes"] !== undefined) {
+        query["endpointTypes"] = params["endpointTypes"];
+      }
+
+      if (params["eventTypeDisplayName"] !== undefined) {
+        query["eventTypeDisplayName"] = params["eventTypeDisplayName"];
+      }
+
+      if (params["includeActions"] !== undefined) {
+        query["includeActions"] = params["includeActions"];
+      }
+
+      if (params["includeDetails"] !== undefined) {
+        query["includeDetails"] = params["includeDetails"];
+      }
+
+      if (params["includePayload"] !== undefined) {
+        query["includePayload"] = params["includePayload"];
+      }
+
+      if (params["invocationResults"] !== undefined) {
+        query["invocationResults"] = params["invocationResults"];
+      }
+
+      if (params["limit"] !== undefined) {
+        query["limit"] = params["limit"];
+      }
+
+      if (params["offset"] !== undefined) {
+        query["offset"] = params["offset"];
+      }
+
+      if (params["sortBy"] !== undefined) {
+        query["sortBy"] = params["sortBy"];
+      }
+
+      if (params["startDate"] !== undefined) {
+        query["startDate"] = params["startDate"];
+      }
+
+      return actionBuilder("GET", path).queryParams(query).build();
+    };
+    const rules = [
+      new ValidateRule(Schemas.PageEventLogEntry, "PageEventLogEntry", 200),
+      new ValidateRule(Schemas.__Empty, "__Empty", 401),
+      new ValidateRule(Schemas.__Empty, "__Empty", 403),
+    ];
+    const useQuery = (
+      params: Operations.EventResourceGetEvents.Params,
+      initFetch?: boolean
+    ) =>
+      useWrappedQuery<Operations.EventResourceGetEvents.Payload>(
+        actionCreator(params),
+        rules,
+        initFetch
+      );
+    const useParameterizedQuery = () =>
+      useWrappedParameterizedQuery<
+        Operations.EventResourceGetEvents.Payload,
+        Operations.EventResourceGetEvents.Params
+      >(actionCreator, rules);
+    const useRequest = () =>
+      useWrappedRequest<
+        Operations.EventResourceGetEvents.Payload,
+        Operations.EventResourceGetEvents.Params
+      >(actionCreator, rules);
+    return { useQuery, useParameterizedQuery, useRequest };
+  })();
+  // GET /notifications/facets/applications
+  // Return a thin list of configured applications. This can be used to configure a filter in the UI
+  const NotificationResourceGetApplicationsFacets = (() => {
+    type ActionCreator =
+      Action<Operations.NotificationResourceGetApplicationsFacets.Payload>;
+    const actionCreator = (
+      params: Operations.NotificationResourceGetApplicationsFacets.Params = {}
+    ): ActionCreator => {
+      const path = "/api/notifications/v1.0/notifications/facets/applications";
+      const query = {} as Record<string, any>;
+      if (params["bundleName"] !== undefined) {
+        query["bundleName"] = params["bundleName"];
+      }
+
+      return actionBuilder("GET", path).queryParams(query).build();
+    };
+    const rules = [
+      new ValidateRule(
+        Operations.NotificationResourceGetApplicationsFacets.Response200,
+        "unknown",
+        200
+      ),
+    ];
+    const useQuery = (
+      params: Operations.NotificationResourceGetApplicationsFacets.Params,
+      initFetch?: boolean
+    ) =>
+      useWrappedQuery<Operations.NotificationResourceGetApplicationsFacets.Payload>(
+        actionCreator(params),
+        rules,
+        initFetch
+      );
+    const useParameterizedQuery = () =>
+      useWrappedParameterizedQuery<
+        Operations.NotificationResourceGetApplicationsFacets.Payload,
+        Operations.NotificationResourceGetApplicationsFacets.Params
+      >(actionCreator, rules);
+    const useRequest = () =>
+      useWrappedRequest<
+        Operations.NotificationResourceGetApplicationsFacets.Payload,
+        Operations.NotificationResourceGetApplicationsFacets.Params
+      >(actionCreator, rules);
+    return { useQuery, useParameterizedQuery, useRequest };
+  })();
+  // GET /notifications/facets/bundles
+  // Return a thin list of configured bundles. This can be used to configure a filter in the UI
+  const NotificationResourceGetBundleFacets = (() => {
+    type ActionCreator =
+      Action<Operations.NotificationResourceGetBundleFacets.Payload>;
+    const actionCreator = (
+      params: Operations.NotificationResourceGetBundleFacets.Params = {}
+    ): ActionCreator => {
+      const path = "/api/notifications/v1.0/notifications/facets/bundles";
+      const query = {} as Record<string, any>;
+      if (params["includeApplications"] !== undefined) {
+        query["includeApplications"] = params["includeApplications"];
+      }
+
+      return actionBuilder("GET", path).queryParams(query).build();
+    };
+    const rules = [
+      new ValidateRule(
+        Operations.NotificationResourceGetBundleFacets.Response200,
+        "unknown",
+        200
+      ),
+    ];
+    const useQuery = (
+      params: Operations.NotificationResourceGetBundleFacets.Params,
+      initFetch?: boolean
+    ) =>
+      useWrappedQuery<Operations.NotificationResourceGetBundleFacets.Payload>(
+        actionCreator(params),
+        rules,
+        initFetch
+      );
+    const useParameterizedQuery = () =>
+      useWrappedParameterizedQuery<
+        Operations.NotificationResourceGetBundleFacets.Payload,
+        Operations.NotificationResourceGetBundleFacets.Params
+      >(actionCreator, rules);
+    const useRequest = () =>
+      useWrappedRequest<
+        Operations.NotificationResourceGetBundleFacets.Payload,
+        Operations.NotificationResourceGetBundleFacets.Params
+      >(actionCreator, rules);
+    return { useQuery, useParameterizedQuery, useRequest };
+  })();
+  // DELETE /notifications/{id}
+  const NotificationResourceMarkRead = (() => {
+    type ActionCreator =
+      Action<Operations.NotificationResourceMarkRead.Payload>;
+    const actionCreator = (
+      params: Operations.NotificationResourceMarkRead.Params
+    ): ActionCreator => {
+      const path = "/api/notifications/v1.0/notifications/{id}".replace(
+        "{id}",
+        params["id"].toString()
+      );
+      const query = {} as Record<string, any>;
+      return actionBuilder("DELETE", path).queryParams(query).build();
+    };
+    const rules = [
+      new ValidateRule(
+        Operations.NotificationResourceMarkRead.Response204,
+        "unknown",
+        204
+      ),
+    ];
+    const useMutation = () =>
+      useWrappedMutation<
+        Operations.NotificationResourceMarkRead.Payload,
+        Operations.NotificationResourceMarkRead.Params
+      >(actionCreator, rules);
+    const useRequest = () =>
+      useWrappedRequest<
+        Operations.NotificationResourceMarkRead.Payload,
+        Operations.NotificationResourceMarkRead.Params
+      >(actionCreator, rules);
+    return { useMutation, useRequest };
+  })();
+  // POST /ob/errors
+  const FromObHistoryFillerHandleCallback = (() => {
+    type ActionCreator =
+      Action<Operations.FromObHistoryFillerHandleCallback.Payload>;
+    const actionCreator = (
+      params: Operations.FromObHistoryFillerHandleCallback.Params
+    ): ActionCreator => {
+      const path = "/api/notifications/v1.0/ob/errors";
+      const query = {} as Record<string, any>;
+      return actionBuilder("POST", path)
+        .queryParams(query)
+        .data(params.body)
+        .build();
+    };
+    const rules = [new ValidateRule(Schemas.__Empty, "__Empty", 200)];
+    const useMutation = () =>
+      useWrappedMutation<
+        Operations.FromObHistoryFillerHandleCallback.Payload,
+        Operations.FromObHistoryFillerHandleCallback.Params
+      >(actionCreator, rules);
+    const useRequest = () =>
+      useWrappedRequest<
+        Operations.FromObHistoryFillerHandleCallback.Payload,
+        Operations.FromObHistoryFillerHandleCallback.Params
+      >(actionCreator, rules);
+    return { useMutation, useRequest };
+  })();
+  return {
+    NotificationResourceCreateBehaviorGroup,
+    NotificationResourceGetBehaviorGroupsAffectedByRemovalOfEndpoint,
+    NotificationResourceUpdateBehaviorGroupActions,
+    NotificationResourceUpdateBehaviorGroup,
+    NotificationResourceDeleteBehaviorGroup,
+    NotificationResourceFindBehaviorGroupsByBundleId,
+    NotificationResourceGetEventTypes,
+    NotificationResourceGetEventTypesAffectedByRemovalOfBehaviorGroup,
+    NotificationResourceGetLinkedBehaviorGroups,
+    NotificationResourceUpdateEventTypeBehaviors,
+    EventResourceGetEvents,
+    NotificationResourceGetApplicationsFacets,
+    NotificationResourceGetBundleFacets,
+    NotificationResourceMarkRead,
+    FromObHistoryFillerHandleCallback,
+  };
+};
+
+export const client = createClient();
